@@ -1,0 +1,50 @@
+{
+	"profiles":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"profile":"PROFILE"
+		}
+	}
+,	"users":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"first_name":"FIRST_NAME"
+		,	"last_name":"LAST_NAME"
+		,	"username":"USERNAME"
+		,	"password":"PASSWORD"
+		,	"id_profile":"ID_PROFILE"
+		}
+	}	
+,	"doctors":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"first_name":"FIRST_NAME"
+		,	"last_name":"LAST_NAME"
+		}
+	}
+,	"patients":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"first_name":"FIRST_NAME"
+		,	"last_name":"LAST_NAME"
+		}
+	}
+,	"appointments":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"date:":"FECHA"
+		,	"id_doctor":"ID_DOCTOR"
+		,	"id_patient":"ID_PATIENT"
+		}
+	}
+}

@@ -1,0 +1,38 @@
+{
+		"name": "hal-data-service"
+	,	"version": "0.0.1"
+	,	"description": "HAL data service"
+	,	"author": "Guidi Neri <neri3004@gmail.com>"
+	,	"contributors":
+			[
+			]
+	,	"engines":
+			{
+				"node": ">= 0.6.0"
+			}
+	,	"keywords":
+		[
+			"json"
+		,	"hal"
+		,	"hypermedia"
+		,	"server"
+		]
+	,	"repository":
+		{
+			"type": "git"
+		,	"url": "git@github.com:nguidi/mHALjs.git"
+		}
+	,	"dependencies":
+		{
+			"commander": "latest"
+		,	"connect": "latest"
+		,	"log-color": "latest"
+		,	"q":"latest"
+		,	"underscore":"latest"
+		,	"nor-hal":"latest"
+		,	"underscore.string":"latest"
+		}
+	,	"devDependencies":
+		{
+		}
+}

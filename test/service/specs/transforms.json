@@ -1,0 +1,106 @@
+{
+	"profiles":
+	{
+		"storage":
+		{
+			"name":"profiles"
+		}
+	,	"associations":
+		{
+			"users":
+			{
+				"type":"has-many"
+			,	"target":"users"
+			,	"target_key":"id_profile"
+			,	"embedded":"partial"
+			}
+		}
+	}
+,	"users":
+	{
+		"storage":
+		{
+			"name":"users"
+		}
+	,	"associations":
+		{
+			"profile":
+			{
+				"type":"belongs-to"
+			,	"target":"profiles"
+			,	"key":"id_profile"
+			,	"embedded":"partial"
+			}
+		}
+	}	
+,	"doctors":
+	{
+		"storage":
+		{
+			"name":"doctors"
+		}
+	,	"associations":
+		{
+			"users":
+			{
+				"type":"is-a"
+			,	"target":"users"
+			}
+		,	"patients":
+			{
+				"type":"has-many:through"
+			,	"target":"patients"
+			,	"through":"appointments"
+			}
+		,	"appointments":
+			{
+				"type":"has-many"
+			,	"target":"appointments"
+			,	"target_key":"id_doctor"
+			}
+		}
+	}
+,	"patients":
+	{
+		"storage":
+		{
+			"name":"patients"
+		}
+	,	"associations":
+		{
+			"users":
+			{
+				"type":"is-a"
+			,	"target":"users"
+			}
+		,	"appointments":
+			{
+				"type":"has-many"
+			,	"target":"appointments"
+			,	"target_key":"id_patient"
+			}
+		}
+	}
+,	"appointments":
+	{
+		"storage":
+		{
+			"name":"appointments"
+		}
+	,	"associations":
+		{
+			"doctor":
+			{
+				"type":"belongs-to"
+			,	"target":"doctors"
+			,	"key":"id_doctor"
+			}
+		,	"patient":
+			{
+				"type":"belongs-to"
+			,	"target":"patients"
+			,	"key":"id_patient"
+			}
+		}
+	}
+}

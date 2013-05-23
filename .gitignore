@@ -1,0 +1,3 @@
+node_modules/
+test/service/data/csv/
+test/service/data/json/
