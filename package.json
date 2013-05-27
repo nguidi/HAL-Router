@@ -24,8 +24,7 @@
 		}
 	,	"dependencies":
 		{
-			"commander": "latest"
-		,	"connect": "latest"
+			"connect": "latest"
 		,	"log-color": "latest"
 		,	"q":"latest"
 		,	"underscore":"latest"

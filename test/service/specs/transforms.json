@@ -1,5 +1,49 @@
 {
-	"profiles":
+	"api_access":
+	{
+		"storage":
+		{
+			"name":"api_access"
+		}
+	,	"associations":
+		{
+			"api_access_profiles":
+			{
+				"type":"has-many"
+			,	"target":"api_access_profiles"
+			,	"target_key":"id_api_access"
+			}
+		,	"profiles":
+			{
+				"type":"has-many:through"
+			,	"target":"profiles"
+			,	"through":"api_access_profiles"
+			}
+		}
+	}
+,	"api_access_profiles":
+	{
+		"storage":
+		{
+			"name":"api_access_profile"
+		}
+	,	"associations":
+		{
+			"api_access":
+			{
+				"type":"belongs-to"
+			,	"target":"api_access"
+			,	"key":"id_api_access"
+			}
+		,	"profile":
+			{
+				"type":"belongs-to"
+			,	"target":"profiles"
+			,	"key":"id_profile"
+			}
+		}
+	}
+,	"profiles":
 	{
 		"storage":
 		{
@@ -12,9 +56,34 @@
 				"type":"has-many"
 			,	"target":"users"
 			,	"target_key":"id_profile"
-			,	"embedded":"partial"
+			}
+		,	"menus":
+			{
+				"type":"has-many"
+			,	"target":"menus"
+			,	"target_key":"id_profile"
+			}
+		,	"api_access_profiles":
+			{
+				"type":"has-many"
+			,	"target":"api_access_profiles"
+			,	"target_key":"id_profile"
+			}
+		,	"api_access":
+			{
+				"type":"has-many:through"
+			,	"target":"api_access"
+			,	"through":"api_access_profiles"
 			}
 		}
+	}
+,	"welcomes":
+	{
+		"storage":
+		{
+			"name":"welcomes"
+		}
+	,	"root": true
 	}
 ,	"users":
 	{
@@ -32,74 +101,224 @@
 			,	"embedded":"partial"
 			}
 		}
-	}	
-,	"doctors":
+	}
+,	"menus":
 	{
 		"storage":
 		{
-			"name":"doctors"
+			"name":"menus"
 		}
 	,	"associations":
 		{
-			"users":
-			{
-				"type":"is-a"
-			,	"target":"users"
-			}
-		,	"patients":
-			{
-				"type":"has-many:through"
-			,	"target":"patients"
-			,	"through":"appointments"
-			}
-		,	"appointments":
+			"options":
 			{
 				"type":"has-many"
-			,	"target":"appointments"
-			,	"target_key":"id_doctor"
+			,	"target":"menu_options"
+			,	"target_key":"id_menu"
+			,	"links":
+				{
+					"template":"/{target}/{target_id}/{target_relation}"
+				,	"title":"title"
+				,	"templated": true
+				}
+			}
+		,	"profile":
+			{
+				"type":"belongs-to"
+			,	"target":"profiles"
+			,	"key":"id_profile"
 			}
 		}
 	}
-,	"patients":
+,	"menu_options":
 	{
 		"storage":
 		{
-			"name":"patients"
+			"name":"menu_options"
 		}
 	,	"associations":
 		{
-			"users":
+			"menu":
 			{
-				"type":"is-a"
-			,	"target":"users"
-			}
-		,	"appointments":
-			{
-				"type":"has-many"
-			,	"target":"appointments"
-			,	"target_key":"id_patient"
+				"type":"belongs-to"
+			,	"target":"menus"
+			,	"key":"id_menu"
 			}
 		}
 	}
-,	"appointments":
+,	"post_types":
 	{
 		"storage":
 		{
-			"name":"appointments"
+			"name":"post_types"
 		}
 	,	"associations":
 		{
-			"doctor":
+			"posts":
 			{
-				"type":"belongs-to"
-			,	"target":"doctors"
-			,	"key":"id_doctor"
+				"type":"has-many"
+			,	"target":"posts"
+			,	"target_key":"id_post_type"
+			,	"embedded":"partial"
 			}
-		,	"patient":
+		}
+	}
+,	"posts":
+	{
+		"storage":
+		{
+			"name":"posts"
+		}
+	,	"associations":
+		{
+			"type":
+			{
+				"type":"has-belongs-to"
+			,	"target":"post_types"
+			,	"key":"id_post_type"
+			}
+		,	"user":
 			{
 				"type":"belongs-to"
-			,	"target":"patients"
-			,	"key":"id_patient"
+			,	"target":"users"
+			,	"key":"id_user"
+			}
+		,	"comments":
+			{
+				"type":"has-many"
+			,	"target":"comments"
+			,	"target_key":"id_post"
+			,	"embedded":"partial"
+			}
+		}
+	}
+,	"comments":
+	{
+		"storage":
+		{
+			"name":"comments"
+		}
+	,	"associations":
+		{
+			"menu":
+			{
+				"type":"belongs-to"
+			,	"target":"posts"
+			,	"key":"id_post"
+			}
+		,	"user":
+			{
+				"type":"belongs-to"
+			,	"target":"users"
+			,	"key":"id_user"
+			}
+		}
+	}
+,	"contents":
+	{
+		"storage":
+		{
+			"name":"contents"
+		}
+	}
+,	"supliers":
+	{
+		"storage":
+		{
+			"name":"supliers"
+		}
+	,	"associations":
+		{
+			"account":
+			{
+				"type":"has-one"
+			,	"target":"accounts"
+			,	"target_key":"id_suplier"
+			}
+		,	"account_history":
+			{
+				"type":"has-one:through"
+			,	"target":"account_histories"
+			,	"through":"accounts"
+			}
+		}
+	}
+,	"accounts":
+	{
+		"storage":
+		{
+			"name":"accounts"
+		}
+	,	"associations":
+		{
+			"supliers":
+			{
+				"type":"belongs-to"
+			,	"target":"supliers"
+			,	"key":"id_suplier"
+			}
+		,	"account_history":
+			{
+				"type":"has-one"
+			,	"target":"account_histories"
+			,	"target_key":"id_account"
+			}
+		}
+	}
+,	"account_histories":
+	{
+		"storage":
+		{
+			"name":"account_histories"
+		}
+	,	"associations":
+		{
+			"account":
+			{
+				"type":"belongs-to"
+			,	"target":"accounts"
+			,	"key":"id_account"
+			}
+		}
+	}
+,	"assamblies":
+	{
+		"storage":
+		{
+			"name":"assamblies"
+		}
+	,	"associations":
+		{
+			"parts":
+			{
+				"type":"has-and-belongs-to-many"
+			,	"target":"parts"
+			,	"through":"assamblies_parts"
+			,	"target_key":"id_parts"
+			}
+		}
+	}
+,	"assamblies_parts":
+	{
+		"storage":
+		{
+			"name":"assamblies_parts"
+		}
+	}
+,	"parts":
+	{
+		"storage":
+		{
+			"name":"parts"
+		}
+	,	"associations":
+		{
+			"assamblies":
+			{
+				"type":"has-and-belongs-to-many"
+			,	"target":"assamblies"
+			,	"through":"assamblies_parts"
+			,	"target_key":"id_assambly"
 			}
 		}
 	}

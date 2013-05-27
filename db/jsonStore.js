@@ -12,17 +12,17 @@ var	Factory
 	_.between
 	=	function(array,initial,final)
 		{
-			return	_.filter(
-						array
-					,	function(elem,index)
-						{
-							return	((initial == final) && final == 0)
-									?	true
-									:	(final == 0)
+			return	((initial == final) && final == 0)
+					?	array
+					:	_.filter(
+							array
+						,	function(elem,index)
+							{
+								return	(final == 0)
 										?	index >= initial
-										:	index >= initial && final <= index
-						}
-					)
+										:	index >= initial && index < final
+							}
+						)
 		}
 
 	var	apply_filter
@@ -30,7 +30,9 @@ var	Factory
 		{
 			var bool = new Array()
 			_.each(
-				filters
+				_.flatten(
+					new Array(filters)
+				)
 			,	function(filter)
 				{
 					if (_.isUndefined(filter.criteria) || filter.criteria == '=')
@@ -119,18 +121,21 @@ var	Factory
 					var initial
 					=	_.isUndefined(query.page) || _.isUndefined(query.ipp)
 						?	0
-						:	query.page*query.ipp
+						:	(query.page-1)*query.ipp
 					,	final
 					=	_.isUndefined(query.page) || _.isUndefined(query.ipp)
 						?	0
-						:	query.page*query.ipp+query.ipp
-					
+						:	(query.page-1)*query.ipp+query.ipp
+
 					return	Q(
-								_.between(
-									this.sources[name]
-								,	initial
-								,	final
-								)
+								{
+									data:	_.between(
+												this.sources[name]
+											,	initial
+											,	final
+											)
+								,	count:	this.sources[name].length
+								}
 							)
 				}
 
@@ -146,19 +151,24 @@ var	Factory
 					=	_.isUndefined(body.collection_query.page) || _.isUndefined(body.collection_query.ipp)
 						?	0
 						:	body.collection_query.page*body.collection_query.ipp+body.collection_query.ipp
+					,	filtered
+					=	_.between(
+							_.filter(
+								this.sources[name]
+							,	function(item)
+								{
+									return	apply_filter(body.query,item)
+								}
+							)
+						,	initial
+						,	final
+						)
 
 					return	Q(
-								_.between(
-									_.filter(
-										this.sources[name]
-									,	function(item)
-										{
-											return	apply_filter(body.query,item)
-										}
-									)
-								,	initial
-								,	final
-								)
+								{
+									data:	filtered
+								,	count:	filtered.length
+								}
 							)
 				}
 
@@ -177,22 +187,154 @@ var	Factory
 							)
 				}
 
+			this.find_through
+			=	function(name,body)
+				{
+					console.log("Store.find_through")
+					var through_item
+					=	_.find(
+							this.sources[body.through.name]
+						,	function(item)
+							{
+								return	apply_filter({key: body.through.through_key, value: body.through.value},item)
+							}
+						)
+
+					return	Q(
+								_.find(
+									this.sources[name]
+								,	function(item)
+									{
+										return	apply_filter({key: body.through.through_target_key, value: through_item[body.through.target_key]},item)
+									}
+								)
+							)
+				}
+
+			this.filter_through
+			=	function(name,body)
+				{
+					console.log("Store.filter_through")
+					console.log(body.through)
+					var self
+					=	this
+					,	initial
+					=	_.isUndefined(body.collection_query.page) || _.isUndefined(body.collection_query.ipp)
+						?	0
+						:	body.collection_query.page*body.collection_query.ipp
+					,	final
+					=	_.isUndefined(body.collection_query.page) || _.isUndefined(body.collection_query.ipp)
+						?	0
+						:	body.collection_query.page*body.collection_query.ipp+body.collection_query.ipp
+					,	through
+					=	_.filter(
+							this.sources[body.through.name]
+						,	function(item)
+							{
+								return	apply_filter({key: body.through.through_key, value: body.through.value},item)
+							}
+						)
+					console.log({key: body.through.through_key, value: body.through.value})
+					console.log(this.sources[body.through.name])
+					var collection
+					=	_.between(
+							_.flatten(
+								_.map(
+									through
+								,	function(through_item)
+									{
+										return	_.filter(
+													self.sources[name]
+												,	function(item)
+													{
+														return	apply_filter({key: body.through.target_key, value: through_item[body.through.through_target_key]},item)
+													}
+												)
+									}
+								)
+							)
+						,	initial
+						,	final
+						)
+
+					return	Q(
+								{
+									data:	collection
+								,	count:	collection.length
+								}
+							)
+				}
+
 			this.update
 			=	function(name,id,data)
 				{
-					return	"UPDATE"
+					console.log("Store.update")
+					return	Q(
+								_.extend(
+									_.find(
+										this.sources[name]
+									,	function(item)
+										{
+											return	_.isEqual(item.id,id)
+										}
+									)
+								, data
+								)	
+							)
 				}
 
 			this.delete
 			=	function(name,id)
 				{
-					return	"DELETE"
+					console.log("Store.delete")
+					var	length
+					=	this.sources[name].length
+					this.sources[name]
+					=	_.filter(
+							this.sources[name]
+						,	function(item)
+							{
+								return	!_.isEqual(item.id,id)
+							}
+						)
+					if (!_.isEqual(length,this.sources[name].length))
+					{
+						delete	found
+						status
+						=	{
+								code: 200
+							}
+					}	else
+						status
+						=	{
+								code: 404
+							}
+
+					return	Q(
+								status
+							)
 				}
 
 			this.create
 			=	function(name,data)
 				{
-					return	"CREATE"
+					console.log("Store.create")
+
+					var last
+					=	_.last(this.sources[name])
+
+					_.extend(
+						data
+					,	{
+							id: parseInt(last.id) + 1
+						}
+					)
+
+					this.sources[name].push(data)
+
+					return	Q(
+								data
+							)
 				}
 		}
 	}

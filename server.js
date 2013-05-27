@@ -1,8 +1,8 @@
 //require('amd-loader')
 var	config
-=	require('./config.js')()
+=	require('./config.json')
 if(!config)
-	throw new Error("config.js not loaded")
+	throw new Error("config.json not loaded")
 var	base_lib
 =	config.paths.lib
 ,	base_pub
@@ -39,6 +39,7 @@ var	connect
 =	require(base_lib+'hal.js')(
 		_
 	,	nor_hal
+	,	URL
 	)
 ,	Q
 =	require('q')
@@ -52,6 +53,8 @@ var	connect
 =	require(server.input.mappings)
 ,	transforms
 =	require(server.input.transforms)
+,	acl
+=	require(server.input.acl)
 ,	Store
 =	new dbStore(config,transforms,mappings)
 ,	ModelBuilder
@@ -63,7 +66,7 @@ var	connect
 	,	URL
 	)
 ,	Resource
-=	new ModelBuilder(config,mappings,transforms)
+=	new ModelBuilder(config,mappings,transforms,acl)
 
 logger.info("Server en funcionamiento: "+config.server.name)
 logger.info("Escuchando Puerto N° "+config.server.port)
@@ -81,10 +84,11 @@ connect()
 .use(
 	connect.session(
 		{
-			secret: 'develepors loves cats'
+			secret: 'develepors loves cats like they love themself so if u know what i mean u wont mess with our beloved cats'
 		,	cookie:
 			{
 				maxAge: 1440000
+			,	secure: true
 			}
 		}
 	)
@@ -98,6 +102,12 @@ connect()
 .use(
 	function(req,res)
 	{
+		if	(_.isUndefined(req.session.user))
+			req.session.user
+			=	{
+					profile: "guest"
+				}
+
 		var	parsed
 		=	URL.parse(req.url.match(RegExp('^'+config.server.base+'(.*)$'))[1]).pathname.split('/')
 		var	model_name
@@ -121,6 +131,11 @@ connect()
 			req.status_code
 			=		400
 		}
+
+		res.writeHead(
+			200
+		,	config.conection.header
+		)
 
 		Resource[model_name]
 			.resolve(

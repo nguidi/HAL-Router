@@ -1,0 +1,9 @@
+ID,TITLE,TARGET,TARGET_ID,TARGET_REALATION,ID_MENU
+1,Opcion 1,content,1,,1
+2,Opcion 2,content,2,,1
+3,Opcion 3,content,3,,1
+4,Opcion 1,content,4,,2
+5,Opcion 2,content,5,,2
+6,Opcion 1,content,6,,3
+7,Opcion 2,content,7,,4
+8,Opcion 3,content,8,,4

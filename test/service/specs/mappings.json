@@ -1,10 +1,37 @@
 {
-	"profiles":
+	"api_access":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"name":"NAME"
+		,	"title":"TITLE"
+		}
+	}
+,	"api_access_profile":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"id_profile":"ID_PROFILE"
+		,	"id_api_access":"ID_API_ACCESS"
+		}
+	}
+,	"profiles":
 	{
 		"fields":
 		{
 			"id":"ID"
 		,	"profile":"PROFILE"
+		}
+	}
+,	"welcomes":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"title":"TITLE"
+		,	"welcome":"WELCOME"
 		}
 	}
 ,	"users":
@@ -19,32 +46,112 @@
 		,	"id_profile":"ID_PROFILE"
 		}
 	}	
-,	"doctors":
+,	"menus":
 	{
 		"fields":
 		{
 			"id":"ID"
-		,	"first_name":"FIRST_NAME"
-		,	"last_name":"LAST_NAME"
+		,	"title":"TITLE"
+		,	"id_profile":"ID_PROFILE"
 		}
 	}
-,	"patients":
+,	"menu_options":
 	{
 		"fields":
 		{
 			"id":"ID"
-		,	"first_name":"FIRST_NAME"
-		,	"last_name":"LAST_NAME"
+		,	"title":"TITLE"
+		,	"target":"TARGET"
+		,	"target_id":"TARGET_ID"
+		,	"target_relation":"TARGET_REALATION"
+		,	"id_menu":"ID_MENU"
 		}
 	}
-,	"appointments":
+,	"post_types":
 	{
 		"fields":
 		{
 			"id":"ID"
-		,	"date:":"FECHA"
-		,	"id_doctor":"ID_DOCTOR"
-		,	"id_patient":"ID_PATIENT"
+		,	"type":"TYPE"
+		}
+	}
+,	"posts":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"title":"TITLE"
+		,	"content":"CONTENT"
+		,	"id_user":"ID_USER"
+		,	"id_post_type":"ID_POST_TYPE"
+		}
+	}
+,	"comments":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"content":"CONTENT"
+		,	"id_user":"ID_USER"
+		,	"id_post":"ID_POST"
+		}
+	}
+,	"contents":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"TITLE":"TITLE"
+		}
+	}
+,	"supliers":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"name":"NAME"
+		}
+	}
+,	"accounts":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"id_suplier":"ID_SUPLIER"
+		,	"account_number":"ACCOUNT_NUMBER"
+		}
+	}
+,	"account_histories":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"id_account":"ID_ACCOUNT"
+		,	"credit_rating":"CREDIT_RATING"
+		}
+	}
+,	"assamblies":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"name":"NAME"
+		}
+	}
+,	"assamblies_parts":
+	{
+		"fields":
+		{
+			"id_assambly":"ID_ASSAMBLY"
+		,	"id_part":"ID_PART"
+		}
+	}
+,	"parts":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"part_number":"PART_NUMBER"
 		}
 	}
 }
