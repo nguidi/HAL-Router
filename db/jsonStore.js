@@ -215,7 +215,6 @@ var	Factory
 			=	function(name,body)
 				{
 					console.log("Store.filter_through")
-					console.log(body.through)
 					var self
 					=	this
 					,	initial
@@ -234,8 +233,7 @@ var	Factory
 								return	apply_filter({key: body.through.through_key, value: body.through.value},item)
 							}
 						)
-					console.log({key: body.through.through_key, value: body.through.value})
-					console.log(this.sources[body.through.name])
+
 					var collection
 					=	_.between(
 							_.flatten(

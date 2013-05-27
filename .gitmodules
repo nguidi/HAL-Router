@@ -1,0 +1,6 @@
+[submodule "csv2json"]
+	path = tools/csv2json
+	url = git@github.com:nguidi/csv2json.git
+[submodule "spec2yuml"]
+	path = tools/spec2yuml
+	url = git@github.com:nguidi/spec2yuml.git

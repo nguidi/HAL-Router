@@ -294,7 +294,7 @@
 				"type":"has-and-belongs-to-many"
 			,	"target":"parts"
 			,	"through":"assamblies_parts"
-			,	"target_key":"id_parts"
+			,	"target_key":"id_part"
 			}
 		}
 	}

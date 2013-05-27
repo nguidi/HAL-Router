@@ -18,6 +18,10 @@ var	base_lib
 		,	color:	true
 		}
 	)
+,	Acl
+=	require('virgen-acl').Acl
+,	acl
+=	new Acl()
 ,	URL
 =	require('url')
 ,	querystring

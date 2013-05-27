@@ -30,6 +30,7 @@
 		,	"underscore":"latest"
 		,	"nor-hal":"latest"
 		,	"underscore.string":"latest"
+		,	"virgen-acl":"latest"
 		}
 	,	"devDependencies":
 		{
