@@ -57,8 +57,6 @@ var	connect
 =	require(server.input.mappings)
 ,	transforms
 =	require(server.input.transforms)
-,	acl
-=	require(server.input.acl)
 ,	Store
 =	new dbStore(config,transforms,mappings)
 ,	ModelBuilder
@@ -69,100 +67,119 @@ var	connect
 	,	Store
 	,	URL
 	)
-,	Resource
-=	new ModelBuilder(config,mappings,transforms,acl)
-
-logger.info("Server en funcionamiento: "+config.server.name)
-logger.info("Escuchando Puerto N° "+config.server.port)
-
-connect()
-.use(
-	connect.logger('dev')
-)
-.use(
-	connect.bodyParser()
-)
-.use(
-	connect.cookieParser()
-)
-.use(
-	connect.session(
-		{
-			secret: 'develepors loves cats like they love themself so if u know what i mean u wont mess with our beloved cats'
-		,	cookie:
-			{
-				maxAge: 1440000
-			,	secure: true
-			}
-		}
+,	Acl
+=	require('virgen-acl').Acl
+,	acl
+=	new Acl()
+,	api_acl
+=	require(base_lib+'acl.js')(
+		_
+	,	Store
+	,	Q
+	,	acl
 	)
-)
-.use(
-	connect
-		.favicon(
-			base_pub+config.conection.icon
-		)
-)
-.use(
-	function(req,res)
-	{
-		if	(_.isUndefined(req.session.user))
-			req.session.user
-			=	{
-					profile: "guest"
-				}
+,	ACL
+=	new api_acl(config)
 
-		var	parsed
-		=	URL.parse(req.url.match(RegExp('^'+config.server.base+'(.*)$'))[1]).pathname.split('/')
-		var	model_name
-		=	_.str
-				.capitalize(
-					_.isDefined(parsed[3])
-					?	_.find(
-							Resource[_.str.capitalize(parsed[1])].associations
-						,	function(assoc)
-							{
-								return	assoc.name == parsed[3]
-							}
-						).target
-					:	parsed[1]
-				)
-
-		if	(_.isUndefined(Resource[model_name]))
+ACL
+	.create()
+	.then(
+		function(data_acl)
 		{
-			model_name
-			=	'Status_codes'
-			req.status_code
-			=		400
-		}
+			var	Resource
+			=	new ModelBuilder(config,mappings,transforms,data_acl)
 
-		res.writeHead(
-			200
-		,	config.conection.header
-		)
+			logger.info("Server en funcionamiento: "+config.server.name)
+			logger.info("Escuchando Puerto N° "+config.server.port)
 
-		Resource[model_name]
-			.resolve(
-				_.extend(
-					req
-				,	{
-						visited: []
+			connect()
+			.use(
+				connect.logger('dev')
+			)
+			.use(
+				connect.bodyParser()
+			)
+			.use(
+				connect.cookieParser()
+			)
+			.use(
+				connect.session(
+					{
+						secret: 'develepors loves cats like they love themself so if u know what i mean u wont mess with our beloved cats'
+					,	cookie:
+						{
+							maxAge: 1440000
+						,	secure: true
+						}
 					}
 				)
 			)
-		.then(
-			function(hal_result)
-			{
-				console.log("Server.hal_result")
-				res.end(
-					JSON.stringify(
-						hal_result
+			.use(
+				connect
+					.favicon(
+						base_pub+config.conection.icon
 					)
-				)
-			}
-		)
-	}
-)
-.listen(
-	server.port
-)
+			)
+			.use(
+				function(req,res)
+				{
+					if	(_.isUndefined(req.session.user))
+						req.session.profile
+						=	config.acl.default_profile
+
+					var	parsed
+					=	URL.parse(req.url.match(RegExp('^'+config.server.base+'(.*)$'))[1]).pathname.split('/')
+					var	model_name
+					=	_.str
+							.capitalize(
+								_.isDefined(parsed[3])
+								?	_.find(
+										Resource[_.str.capitalize(parsed[1])].associations
+									,	function(assoc)
+										{
+											return	assoc.name == parsed[3]
+										}
+									).target
+								:	parsed[1]
+							)
+
+					if	(_.isUndefined(Resource[model_name]))
+					{
+						model_name
+						=	'Status_codes'
+						req.status_code
+						=		400
+					}
+
+					res.writeHead(
+						200
+					,	config.conection.header
+					)
+					
+					Resource[model_name]
+						.resolve(
+							_.extend(
+								req
+							,	{
+									visited: []
+								}
+							)
+						)
+					.then(
+						function(hal_result)
+						{
+							console.log("Server.hal_result")
+							res.end(
+								JSON.stringify(
+									hal_result
+								)
+							)
+						}
+					)
+				}
+			)
+			.listen(
+				server.port
+			)
+		}
+	)

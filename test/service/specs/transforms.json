@@ -1,39 +1,36 @@
 {
-	"api_access":
+	"acl_aros":
 	{
 		"storage":
 		{
-			"name":"api_access"
+			"name":"acl_aros"
 		}
 	,	"associations":
 		{
-			"api_access_profiles":
+			"acl_acos":
 			{
-				"type":"has-many"
-			,	"target":"api_access_profiles"
-			,	"target_key":"id_api_access"
-			}
-		,	"profiles":
-			{
-				"type":"has-many:through"
-			,	"target":"profiles"
-			,	"through":"api_access_profiles"
+				"type":"has-and-belongs-to-many"
+			,	"target":"acl_acos"
+			,	"through":"acl_aros_acos"
+			,	"target_key":"id_acl_acos"
 			}
 		}
 	}
-,	"api_access_profiles":
+,	"acl_acos":
 	{
 		"storage":
 		{
-			"name":"api_access_profile"
+			"name":"acl_acos"
 		}
 	,	"associations":
 		{
-			"api_access":
+			"acl_aros":
 			{
-				"type":"belongs-to"
-			,	"target":"api_access"
-			,	"key":"id_api_access"
+				"type":"has-and-belongs-to-many"
+			,	"target":"acl_aros"
+			,	"through":"acl_aros_acos"
+			,	"target_key":"id_acl_aros"
+			,	"embedded":"partial"
 			}
 		,	"profile":
 			{
@@ -41,6 +38,13 @@
 			,	"target":"profiles"
 			,	"key":"id_profile"
 			}
+		}
+	}
+,	"acl_aros_acos":
+	{
+		"storage":
+		{
+			"name":"acl_aros_acos"
 		}
 	}
 ,	"profiles":
@@ -63,17 +67,12 @@
 			,	"target":"menus"
 			,	"target_key":"id_profile"
 			}
-		,	"api_access_profiles":
+		,	"acl_acos":
 			{
 				"type":"has-many"
-			,	"target":"api_access_profiles"
+			,	"target":"acl_acos"
 			,	"target_key":"id_profile"
-			}
-		,	"api_access":
-			{
-				"type":"has-many:through"
-			,	"target":"api_access"
-			,	"through":"api_access_profiles"
+			,	"embedded":"*"
 			}
 		}
 	}

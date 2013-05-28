@@ -1,20 +1,29 @@
 {
-	"api_access":
+	"acl_aros":
 	{
 		"fields":
 		{
 			"id":"ID"
-		,	"name":"NAME"
-		,	"title":"TITLE"
+		,	"permission":"PERMISION"
 		}
 	}
-,	"api_access_profile":
+,	"acl_acos":
 	{
 		"fields":
 		{
 			"id":"ID"
 		,	"id_profile":"ID_PROFILE"
-		,	"id_api_access":"ID_API_ACCESS"
+		,	"model":"MODEL"
+		}
+	}
+,	"acl_aros_acos":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"id_acl_acos":"ID_ACL_ACOS"
+		,	"id_acl_aros":"ID_ACL_AROS"
+		,	"allow":"ALLOW"
 		}
 	}
 ,	"profiles":

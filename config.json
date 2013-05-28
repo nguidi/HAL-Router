@@ -3,7 +3,7 @@
 	{
 		"lib":		"./lib/"
 	,	"public":	"./public/"
-	,	"db":			"./db/"
+	,	"db":		"./db/"
 	}
 ,	"server": 
 	{
@@ -15,9 +15,8 @@
 	,	"input":
 		{
 			"folder":		"./test/service/"
-		,	"mappings":	"./test/service/specs/mappings.json"
+		,	"mappings":		"./test/service/specs/mappings.json"
 		,	"transforms":	"./test/service/specs/transforms.json"
-		,	"acl":		"./test/service/access_control_list.json"
 		}
 	,	"store":		"./db/jsonStore.js"
 	}
@@ -26,6 +25,14 @@
 		"signin":	"/api/signin"
 	,	"signout":	"/api/signout"
 	,	"signup":	"/api/signup"
+	}
+,	"acl":
+	{
+		"aros":"acl_aros"
+	,	"acos":"acl_acos"
+	,	"aros_acos":"acl_aros_acos"
+	,	"roles":"profiles"
+	,	"default_profile":"Guest"
 	}
 ,	"conection":
 	{

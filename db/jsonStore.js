@@ -95,7 +95,7 @@ var	Factory
 							)
 						)
 					else
-						logger.warning('Data Input: no such file '+found_path+'/'+transform.storage.name+'.json')
+						logger.warning('Data Input: no such file '+path+'/'+transform.storage.name+'.json')
 				}
 			)
 
