@@ -5,6 +5,8 @@ if(!config)
 	throw new Error("config.json not loaded")
 var	base_lib
 =	config.paths.lib
+,	base_model
+=	config.paths.model
 ,	base_pub
 =	config.paths.public
 ,	server
@@ -59,12 +61,20 @@ var	connect
 =	require(server.input.transforms)
 ,	Store
 =	new dbStore(config,transforms,mappings)
-,	ModelBuilder
-=	require(base_lib+'model-builder.js')(
+,	ModelApi
+=	require(base_model+'api.js')(
 		_
-	,	HAL
+	,	URL
+	)
+,	ModelAssociation
+=	require(base_model+'association.js')(
+		_
+	,	URL
 	,	Q
-	,	Store
+	)
+,	ModelCuries
+=	require(base_model+'curies.js')(
+		_
 	,	URL
 	)
 ,	Acl
@@ -80,14 +90,45 @@ var	connect
 	)
 ,	ACL
 =	new api_acl(config)
+,	ModelResource
+=	require(base_model+'resource.js')(
+		_
+	,	URL
+	,	Q
+	,	HAL
+	,	Store
+	,	_.extend(
+			new ModelApi(config)
+		,	new ModelAssociation(config,transforms)
+		,	new ModelCuries(config)
+		)
+	)
+,	ModelStatusCodes
+=	require(base_model+'status_code.js')(
+		_
+	,	URL
+	,	HAL
+	)
 
 ACL
 	.create()
 	.then(
 		function(data_acl)
 		{
-			var	Resource
-			=	new ModelBuilder(config,mappings,transforms,data_acl)
+			var	ModelBuilder
+			=	require(base_lib+'model-builder.js')(
+					_
+				,	HAL
+				,	Q
+				,	Store
+				,	URL
+				,	_.extend(
+						new ModelResource(config,data_acl)
+					,	new ModelStatusCodes(config)
+					)
+				)
+			,	Resource
+			=	new ModelBuilder(config,mappings,transforms)
 
 			logger.info("Server en funcionamiento: "+config.server.name)
 			logger.info("Escuchando Puerto N° "+config.server.port)

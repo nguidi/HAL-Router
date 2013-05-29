@@ -4,11 +4,13 @@
 		"lib":		"./lib/"
 	,	"public":	"./public/"
 	,	"db":		"./db/"
+	,	"model":	"./model/"	
 	}
 ,	"server": 
 	{
 		"name":		"Data Server"
 	,	"base":		"/api/data"
+	,	"api_base":	"/api"
 	,	"host":		"trabajando"
 	,	"port":		"3003"
 	,	"protocol":	"http"
@@ -22,9 +24,9 @@
 	}
 ,	"api_links":
 	{
-		"signin":	"/api/signin"
-	,	"signout":	"/api/signout"
-	,	"signup":	"/api/signup"
+		"signin":	"/signin"
+	,	"signout":	"/signout"
+	,	"signup":	"/signup"
 	}
 ,	"acl":
 	{
