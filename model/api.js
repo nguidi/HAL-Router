@@ -2,6 +2,7 @@ var	Factory
 =	function(
 		_
 	,	URL
+	,	Curies
 	)
 	{
 		return	function(config)
@@ -15,12 +16,31 @@ var	Factory
 									,	function(link,rel)
 										{
 											return	{
-												source: spec_key
-											,	name: 'api:'+rel
-											,	type: 'api'
+												source:	spec_key
+											,	name:	rel
+											,	type:	'api'
+											,	href:	link
 											,	generate_links: function()
 												{
-													return	link
+													var	curies
+													=	Curies.get(this.type)
+													,	links
+													=	{
+															curies: curies
+														}
+													_.extend(
+														links
+													,	_.object(
+															[this.type+':'+this.name]
+														,	[
+																{
+																	name: this.name
+																,	href: this.href
+																}
+															]
+														)
+													)
+													return	links
 												}
 											}
 										}

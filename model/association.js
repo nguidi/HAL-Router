@@ -3,6 +3,8 @@ var	Factory
 		_
 	,	URL
 	,	Q
+	,	Curies
+	,	ACL
 	)
 	{
 		return	function(config,transforms)
@@ -105,7 +107,50 @@ var	Factory
 							=	function(data,profile)
 								{
 									console.log("Assoc.generate_link")
-									return	'/'+this.source+'/'+data.id+'/'+this.name
+									var	href
+									=	'/'+this.source+'/'+data.id+'/'+this.name
+									,	name
+									=	this.name
+									,	source
+									=	this.source
+									,	curies
+									=	Curies.get(this.type)
+									,	links
+									=	{
+											curies: curies
+										}
+
+									_.each(
+										curies
+									,	function(curie)
+										{
+											ACL
+												.query(
+													profile
+												,	source
+												,	_.contains(['show','list'],curie.name)
+													?	'view'
+													:	curie.name
+												,	function(err, allowed)
+													{
+														if	(allowed)
+															_.extend(
+																links
+															,	_.object(
+																	[curie.name+':'+name]
+																,	[
+																		{
+																			name:	name
+																		,	href:	href
+																		}
+																	]
+																)
+															)
+													}
+												)
+										}
+									)
+									return	links
 								}
 
 							this.generate_query

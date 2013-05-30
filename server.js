@@ -61,22 +61,6 @@ var	connect
 =	require(server.input.transforms)
 ,	Store
 =	new dbStore(config,transforms,mappings)
-,	ModelApi
-=	require(base_model+'api.js')(
-		_
-	,	URL
-	)
-,	ModelAssociation
-=	require(base_model+'association.js')(
-		_
-	,	URL
-	,	Q
-	)
-,	ModelCuries
-=	require(base_model+'curies.js')(
-		_
-	,	URL
-	)
 ,	Acl
 =	require('virgen-acl').Acl
 ,	acl
@@ -90,32 +74,49 @@ var	connect
 	)
 ,	ACL
 =	new api_acl(config)
-,	ModelResource
-=	require(base_model+'resource.js')(
-		_
-	,	URL
-	,	Q
-	,	HAL
-	,	Store
-	,	_.extend(
-			new ModelApi(config)
-		,	new ModelAssociation(config,transforms)
-		,	new ModelCuries(config)
-		)
-	)
-,	ModelStatusCodes
-=	require(base_model+'status_code.js')(
-		_
-	,	URL
-	,	HAL
-	)
-
 ACL
 	.create()
 	.then(
 		function(data_acl)
 		{
-			var	ModelBuilder
+			var	ModelCuries
+			=	require(base_model+'curies.js')(
+					_
+				,	URL
+				)
+			,	ModelApi
+			=	require(base_model+'api.js')(
+					_
+				,	URL
+				,	new ModelCuries(config)
+				)
+			,	ModelAssociation
+			=	require(base_model+'association.js')(
+					_
+				,	URL
+				,	Q
+				,	new ModelCuries(config)
+				,	data_acl
+				)
+			,	ModelResource
+			=	require(base_model+'resource.js')(
+					_
+				,	URL
+				,	Q
+				,	HAL
+				,	Store
+				,	_.extend(
+						new ModelApi(config)
+					,	new ModelAssociation(config,transforms)
+					)
+				)
+			,	ModelStatusCodes
+			=	require(base_model+'status_code.js')(
+					_
+				,	URL
+				,	HAL
+				)
+			,	ModelBuilder
 			=	require(base_lib+'model-builder.js')(
 					_
 				,	HAL

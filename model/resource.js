@@ -29,7 +29,7 @@ var	Factory
 								this.associations
 								=	_.union(
 										this.associations
-									,	new	Models.Api_Association()
+									,	new	Models.Api_Association(this.name)
 									)
 
 							this.fields
@@ -248,16 +248,38 @@ var	Factory
 										this.associations
 									,	function(assoc)
 										{
-											hal_resource
-												.link(
-													'curies'
-												,	Models.Curies(assoc.type)
-												)
-											hal_resource
-												.link(
-													assoc.name
-												,	assoc.generate_links(data,profile)
-												)
+											_.each(
+												assoc.generate_links(data,profile)
+											,	function(links,name)
+												{
+													var	filtered
+													if	(_.isArray(links))	{
+														filtered
+														=	_.filter(
+																links
+															,	function(link)
+																{
+																	return	_.isUndefined(
+																				_.find(
+																					hal_resource._data._links[name]
+																				,	function(linked_link)
+																					{
+																						return _.isEqual(link.name,linked_link.name)
+																					}
+																				)
+																			)
+																}	
+															)
+													}
+													hal_resource
+														.link(
+															name
+														,	_.isUndefined(filtered)
+															?	links
+															:	filtered
+														)
+												}
+											)
 										}
 									)
 
