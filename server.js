@@ -97,7 +97,6 @@ ACL
 				,	Q
 				,	new ModelCuries(config)
 				,	data_acl
-				,	Resources
 				)
 			,	ModelStatusCodes
 			=	require(base_model+'status_code.js')(
@@ -117,22 +116,28 @@ ACL
 					,	new ModelAssociation(config,transforms)
 					,	new ModelStatusCodes(config)
 					)
-				,	Resources
 				)
 			,	ModelBuilder
 			=	require(base_lib+'model-builder.js')(
 					_
-				,	HAL
+				,	new ModelResource(config,data_acl)
+				)
+			,	ResourceBuilder
+			=	require(base_lib+'builder.js')(
+					_
+				,	URL
 				,	Q
 				,	Store
-				,	URL
+				,	data_acl
 				,	_.extend(
-						new ModelResource(config,data_acl)
-					,	new ModelStatusCodes(config)
+						{
+							Resources: new ModelBuilder(config,mappings,transforms)
+						}
+					,	new ModelStatusCodes(config)	
 					)
 				)
-			,	Resources
-			=	new ModelBuilder(config,mappings,transforms)
+			,	Builder
+			=	new ResourceBuilder(config)
 
 			logger.info("Server en funcionamiento: "+config.server.name)
 			logger.info("Escuchando Puerto N° "+config.server.port)
@@ -172,36 +177,12 @@ ACL
 						req.session.profile
 						=	config.acl.default_profile
 
-					var	parsed
-					=	URL.parse(req.url.match(RegExp('^'+config.server.base+'(.*)$'))[1]).pathname.split('/')
-					var	model_name
-					=	_.str
-							.capitalize(
-								_.isDefined(parsed[3])
-								?	_.find(
-										Resources[_.str.capitalize(parsed[1])].associations
-									,	function(assoc)
-										{
-											return	assoc.name == parsed[3]
-										}
-									).target
-								:	parsed[1]
-							)
-
-					if	(_.isUndefined(Resources[model_name]))
-					{
-						model_name
-						=	'Status_codes'
-						req.status_code
-						=		400
-					}
-
 					res.writeHead(
 						200
 					,	config.conection.header
 					)
 					
-					Resources[model_name]
+					Builder
 						.resolve(
 							_.extend(
 								req
