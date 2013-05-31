@@ -192,7 +192,7 @@ var	Factory
 												req
 											,	{
 													method:	'POST'
-												,	url:	this.generate_links(data)
+												,	url:	'/'+this.source+'/'+data.id+'/'+this.name
 												,	body:	this.generate_query(data)
 												}
 											)

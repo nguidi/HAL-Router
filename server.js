@@ -97,6 +97,13 @@ ACL
 				,	Q
 				,	new ModelCuries(config)
 				,	data_acl
+				,	Resources
+				)
+			,	ModelStatusCodes
+			=	require(base_model+'status_code.js')(
+					_
+				,	URL
+				,	HAL
 				)
 			,	ModelResource
 			=	require(base_model+'resource.js')(
@@ -108,13 +115,9 @@ ACL
 				,	_.extend(
 						new ModelApi(config)
 					,	new ModelAssociation(config,transforms)
+					,	new ModelStatusCodes(config)
 					)
-				)
-			,	ModelStatusCodes
-			=	require(base_model+'status_code.js')(
-					_
-				,	URL
-				,	HAL
+				,	Resources
 				)
 			,	ModelBuilder
 			=	require(base_lib+'model-builder.js')(
@@ -128,7 +131,7 @@ ACL
 					,	new ModelStatusCodes(config)
 					)
 				)
-			,	Resource
+			,	Resources
 			=	new ModelBuilder(config,mappings,transforms)
 
 			logger.info("Server en funcionamiento: "+config.server.name)
@@ -176,7 +179,7 @@ ACL
 							.capitalize(
 								_.isDefined(parsed[3])
 								?	_.find(
-										Resource[_.str.capitalize(parsed[1])].associations
+										Resources[_.str.capitalize(parsed[1])].associations
 									,	function(assoc)
 										{
 											return	assoc.name == parsed[3]
@@ -185,7 +188,7 @@ ACL
 								:	parsed[1]
 							)
 
-					if	(_.isUndefined(Resource[model_name]))
+					if	(_.isUndefined(Resources[model_name]))
 					{
 						model_name
 						=	'Status_codes'
@@ -198,7 +201,7 @@ ACL
 					,	config.conection.header
 					)
 					
-					Resource[model_name]
+					Resources[model_name]
 						.resolve(
 							_.extend(
 								req

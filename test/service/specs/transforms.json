@@ -30,7 +30,6 @@
 			,	"target":"acl_aros"
 			,	"through":"acl_aros_acos"
 			,	"target_key":"id_acl_aros"
-			,	"embedded":"partial"
 			}
 		,	"profile":
 			{
@@ -126,6 +125,7 @@
 				"type":"belongs-to"
 			,	"target":"profiles"
 			,	"key":"id_profile"
+			,	"embedded":"partial"
 			}
 		}
 	}
