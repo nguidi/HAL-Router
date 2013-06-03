@@ -37,8 +37,8 @@ var	base_lib
 	{
 		return	!_.isUndefined(what)
 	}
-var	connect
-=	require('connect')
+var	express
+=	require('express')
 ,	nor_hal
 =	require('nor-hal')
 	HAL
@@ -127,6 +127,7 @@ ACL
 					_
 				,	URL
 				,	Q
+				,	HAL
 				,	Store
 				,	data_acl
 				,	_.extend(
@@ -138,73 +139,116 @@ ACL
 				)
 			,	Builder
 			=	new ResourceBuilder(config)
+			,	ApplicationManager
+			=	require(base_lib+'api.js')(
+					_
+				,	HAL
+				,	Q
+				,	Store
+				,	_.extend(
+						{
+							Resources: new ModelBuilder(config,mappings,transforms)
+						}
+					,	new ModelStatusCodes(config)	
+					)
+				,	ACL
+				)
+			,	Application
+			=	new ApplicationManager(config)
 
 			logger.info("Server en funcionamiento: "+config.server.name)
 			logger.info("Escuchando Puerto N° "+config.server.port)
 
-			connect()
-			.use(
-				connect.logger('dev')
+			var	app
+			=	express();
+
+			app.use(
+				express.logger('dev')
 			)
-			.use(
-				connect.bodyParser()
-			)
-			.use(
-				connect.cookieParser()
-			)
-			.use(
-				connect.session(
-					{
-						secret: 'develepors loves cats like they love themself so if u know what i mean u wont mess with our beloved cats'
-					,	cookie:
-						{
-							maxAge: 1440000
-						,	secure: true
-						}
-					}
-				)
-			)
-			.use(
-				connect
+			app.use(
+				express
 					.favicon(
 						base_pub+config.conection.icon
 					)
 			)
-			.use(
+			app.use(
+				express.bodyParser()
+			)
+			app.use(
+				express.cookieParser()
+			)
+			app.use(
+				express.cookieSession(
+					{
+						secret: 'keyboard cat'
+					,	cookie:
+						{
+							maxAge: 1440000
+						}
+					}
+				)
+			)
+			app.use(
 				function(req,res)
 				{
-					if	(_.isUndefined(req.session.user))
-						req.session.profile
-						=	config.acl.default_profile
+					var	Status_codes
+					=	new (new ModelStatusCodes(config)).Status_codes()
 
-					res.writeHead(
-						200
-					,	config.conection.header
+
+					res.set(
+						config.conection.header
 					)
-					
-					Builder
-						.resolve(
-							_.extend(
+
+					var requested_url
+					=	URL.parse(req.url.match(RegExp('^'+config.server.api_base+'(.*)$'))[1]).pathname
+					,	api_link
+					=	_.find(
+							_.keys(config.application.links)
+						,	function(name)
+							{
+								return	_.isEqual(config.application.links[name],requested_url)
+							}
+						)
+
+					if	(_.isDefined(api_link))
+					{
+						Application
+							.resolve(
 								req
-							,	{
-									visited: []
+							,	api_link
+							).then(
+								function(hal_result)
+								{
+									console.log("Application.hal_result")
+									res.json(
+										hal_result
+									)
 								}
 							)
-						)
-					.then(
-						function(hal_result)
-						{
-							console.log("Server.hal_result")
-							res.end(
-								JSON.stringify(
-									hal_result
+					}	else 	{
+						Builder
+							.resolve(
+								_.extend(
+									req
+								,	{
+										visited: []
+									}
 								)
 							)
-						}
-					)
+						.then(
+							function(hal_result)
+							{
+								console.log("Builder.hal_result")
+								res.json(
+									hal_result
+								)
+							}
+						)
+					}
+
 				}
 			)
-			.listen(
+			app.listen(
 				server.port
 			)
 		}

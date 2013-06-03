@@ -22,11 +22,15 @@
 		}
 	,	"store":		"./db/jsonStore.js"
 	}
-,	"api_links":
+,	"application":
 	{
-		"signin":	"/signin"
-	,	"signout":	"/signout"
-	,	"signup":	"/signup"
+		"users":	"users"
+	,	"links":
+		{
+			"signin":	"/signin"
+		,	"signout":	"/signout"
+		,	"signup":	"/signup"
+		}
 	}
 ,	"acl":
 	{

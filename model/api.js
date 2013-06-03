@@ -12,7 +12,7 @@ var	Factory
 					=	function(spec_key)
 						{
 							return	_.map(
-										config.api_links
+										config.application.links
 									,	function(link,rel)
 										{
 											return	{

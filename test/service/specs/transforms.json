@@ -71,7 +71,6 @@
 				"type":"has-many"
 			,	"target":"acl_acos"
 			,	"target_key":"id_profile"
-			,	"embedded":"*"
 			}
 		}
 	}
