@@ -43,18 +43,31 @@ var	Factory
 							=	new Object()
 
 							this.assoc_method
-							=	function(req,assoc_key,data)
+							=	function(req,assoc_target,data)
 								{
 									var	assoc
 									=	_.find(
 											this.associations
 										,	function(assoc)
 											{
-												return	_.isEqual(assoc.name,assoc_key)
+												return	_.isEqual(assoc.target,assoc_target.source)
+													&&	_.isEqual(assoc.key,assoc_target.target_key)
+													&&	_.isEqual(assoc.target_key,assoc_target.key)
 											}
 										)
-
 									return	assoc.create_request(req,data)
+								}
+
+							this.find_assoc
+							=	function(assoc_name)
+								{
+									return	_.find(
+												this.associations
+											,	function(assoc)
+												{
+													return	_.isEqual(assoc.name,assoc_name)
+												}
+											)
 								}
 
 							//	Get the resource url
@@ -129,6 +142,7 @@ var	Factory
 																}	
 															)
 													}
+													console.log(links,filtered)
 													hal_resource
 														.link(
 															name

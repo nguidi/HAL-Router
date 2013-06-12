@@ -39,8 +39,12 @@
 		"fields":
 		{
 			"id":"ID"
+		,	"app_name":"APP_NAME"
 		,	"title":"TITLE"
 		,	"welcome":"WELCOME"
+		,	"login_title":"LOGIN_TITLE"
+		,	"signin":"SIGNIN"
+		,	"signup":"SIGNUP"
 		}
 	}
 ,	"users":
@@ -62,6 +66,7 @@
 			"id":"ID"
 		,	"title":"TITLE"
 		,	"id_profile":"ID_PROFILE"
+		,	"id_option:":"ID_OPTION"
 		}
 	}
 ,	"menu_options":

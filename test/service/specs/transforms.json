@@ -112,19 +112,19 @@
 				"type":"has-many"
 			,	"target":"menu_options"
 			,	"target_key":"id_menu"
-			,	"links":
-				{
-					"template":"/{target}/{target_id}/{target_relation}"
-				,	"title":"title"
-				,	"templated": true
-				}
+			,	"embedded":"full"
+			}
+		,	"option":
+			{
+				"type":"belongs-to"
+			,	"target":"menu_options"
+			,	"key":"id_option"
 			}
 		,	"profile":
 			{
 				"type":"belongs-to"
 			,	"target":"profiles"
 			,	"key":"id_profile"
-			,	"embedded":"partial"
 			}
 		}
 	}
@@ -141,6 +141,13 @@
 				"type":"belongs-to"
 			,	"target":"menus"
 			,	"key":"id_menu"
+			}
+		,	"submenu":
+			{
+				"type":"has-one"
+			,	"target":"menus"
+			,	"target_key":"id_option"
+			,	"embedded":"full"
 			}
 		}
 	}

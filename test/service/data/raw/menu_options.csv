@@ -7,3 +7,8 @@ ID,TITLE,TARGET,TARGET_ID,TARGET_REALATION,ID_MENU
 6,Opcion 1,content,6,,3
 7,Opcion 2,content,7,,4
 8,Opcion 3,content,8,,4
+9,SubOpcion 1,content,1,,5
+10,SubOpcion 2,content,2,,5
+11,SubOpcion 3,content,3,,5
+12,SubOpcion 4,content,4,,5
+13,SubOpcion 5,content,5,,5
