@@ -178,7 +178,7 @@
 		{
 			"type":
 			{
-				"type":"has-belongs-to"
+				"type":"belongs-to"
 			,	"target":"post_types"
 			,	"key":"id_post_type"
 			}

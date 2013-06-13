@@ -142,7 +142,7 @@ var	Factory
 																}	
 															)
 													}
-													console.log(links,filtered)
+
 													hal_resource
 														.link(
 															name
