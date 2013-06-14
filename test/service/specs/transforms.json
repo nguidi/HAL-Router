@@ -327,4 +327,11 @@
 			}
 		}
 	}
+,	"footers":
+	{
+		"storage":
+		{
+			"name":"footers"
+		}
+	}	
 }

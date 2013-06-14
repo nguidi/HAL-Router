@@ -168,4 +168,13 @@
 		,	"part_number":"PART_NUMBER"
 		}
 	}
+,	"footers":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"title":"TITLE"
+		,	"copyright":"COPYRIGHT"
+		}
+	}
 }
