@@ -3,6 +3,10 @@ var	config
 =	require('./config.json')
 if(!config)
 	throw new Error("config.json not loaded")
+var defaults
+=	require('./defaults.json')
+if(!defaults)
+	throw new Error("config.json not loaded")
 var	base_lib
 =	config.paths.lib
 ,	base_model
@@ -59,7 +63,16 @@ var	express
 =	require(server.input.mappings)
 ,	transforms
 =	require(server.input.transforms)
-,	Store
+,	AppCheckout
+=	require(base_lib+'checkout.js')(
+		_
+	,	logger
+	)
+,	checkout
+=	new AppCheckout(defaults,mappings,transforms)
+if	(checkout.errors)
+	throw "Corrija los errores antes de continuar"
+var	Store
 =	new dbStore(config,transforms,mappings)
 ,	Acl
 =	require('virgen-acl').Acl
