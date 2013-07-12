@@ -1,0 +1,45 @@
+{
+	"users":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"id_profile":"ID_PROFILE"
+		,	"username":"username"
+		,	"passoword":"PASSWORD"
+		}
+	}
+,	"welcomes":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"title":"TITLE"
+		,	"welcome":"WELCOME"
+		,	"logo":"LOGO"
+		}
+	}
+,	"menus":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"id_profile":"ID_PROFILE"
+		,	"id_submenu":"ID_SUBMENU"
+		,	"title":"TITLE"
+		}
+	}
+,	"options":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"id_menu":"ID_MENU"
+		,	"title":"TITLE"
+		,	"content":"CONTENT"
+		,	"target":"TARGET"
+		,	"target_id":"TARGET_ID"
+		,	"target_assoc":"TARGET_ASSOC"
+		}
+	}
+}

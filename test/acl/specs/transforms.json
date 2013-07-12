@@ -1,0 +1,174 @@
+{
+	"profiles":
+	{
+		"storage":
+		{
+			"name":"profiles"
+		}
+	,	"associations":
+		{
+			"groups":
+			{
+				"type":"has-and-belongs-to-many"
+			,	"target":"groups"
+			,	"through":"profiles_groups"
+			,	"target_key":"id_group"
+			}
+		,	"menus":
+			{
+				"type":"has-many"
+			,	"target":"menus"
+			,	"target_key":"id_profile"
+			}
+		}
+	}
+,	"groups":
+	{
+		"storage":
+		{
+			"name":"groups"
+		}
+	,	"associations":
+		{
+			"profiles":
+			{
+				"type":"has-and-belongs-to-many"
+			,	"target":"profiles"
+			,	"through":"profiles_groups"
+			,	"target_key":"id_profile"
+			}
+		,	"permissions":
+			{
+				"type":"has-and-belongs-to-many"
+			,	"target":"permissions"
+			,	"through":"groups_permissions"
+			,	"target_key":"id_permission"
+			}
+		,	"acos":
+			{
+				"type":"has-and-belongs-to-many"
+			,	"target":"acos"
+			,	"through":"groups_acos"
+			,	"target_key":"id_aco"
+			}
+		}
+	}
+,	"acos":
+	{
+		"storage":
+		{
+			"name":"acos"
+		}
+	,	"associations":
+		{
+			"groups":
+			{
+				"type":"has-and-belongs-to-many"
+			,	"target":"groups"
+			,	"through":"groups_acos"
+			,	"target_key":"id_group"
+			}
+		,	"permissions":
+			{
+				"type":"has-and-belongs-to-many"
+			,	"target":"permissions"
+			,	"through":"acos_permissions"
+			,	"target_key":"id_permission"
+			}
+		,	"assocs":
+			{
+				"type":"has-many"
+			,	"target":"assocs"
+			,	"target_key":"id_aco"
+			}
+		}
+	}
+,	"assocs":
+	{
+		"storage":
+		{
+			"name":"assocs"
+		}
+	,	"associations":
+		{
+			"aco":
+			{
+				"type":"belongs-to"
+			,	"target":"acos"
+			,	"key":"id_aco"
+			}
+		,	"assoc":
+			{
+				"type":"belongs-to"
+			,	"target":"acos"
+			,	"key":"id_assoc"
+			}
+		}
+	}
+,	"permissions":
+	{
+		"storage":
+		{
+			"name":"permissions"
+		}
+	,	"associations":
+		{
+			"groups":
+			{
+				"type":"has-and-belongs-to-many"
+			,	"target":"groups"
+			,	"through":"groups_permissions"
+			,	"target_key":"id_group"
+			}
+		,	"acos":
+			{
+				"type":"has-and-belongs-to-many"
+			,	"target":"acos"
+			,	"through":"acos_permissions"
+			,	"target_key":"id_aco"
+			}
+		}
+	}
+,	"profiles_groups":
+	{
+		"storage":
+		{
+			"name":"profiles_groups"
+		}
+	}
+,	"groups_permissions":
+	{
+		"storage":
+		{
+			"name":"groups_permissions"
+		}
+	}
+,	"groups_acos":
+	{
+		"storage":
+		{
+			"name":"groups_acos"
+		}
+	}
+,	"groups_acos_permissions":
+	{
+		"storage":
+		{
+			"name":"groups_acos_permissions"
+		}
+	}
+,	"groups_acos_assocs":
+	{
+		"storage":
+		{
+			"name":"groups_acos_assocs"
+		}
+	}
+,	"groups_acos_assocs_permissions":
+	{
+		"storage":
+		{
+			"name":"groups_acos_assocs_permissions"
+		}
+	}
+}

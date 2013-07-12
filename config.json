@@ -15,11 +15,18 @@
 	,	"port":		"3003"
 	,	"protocol":	"http"
 	,	"input":
-		{
-			"folder":		"./test/service/"
-		,	"mappings":		"./test/service/specs/mappings.json"
-		,	"transforms":	"./test/service/specs/transforms.json"
-		}
+		[
+			{
+				"folder":		"./test/acl/"
+			,	"mappings":		"./test/acl/specs/mappings.json"
+			,	"transforms":	"./test/acl/specs/transforms.json"
+			}
+		,	{
+				"folder":		"./test/api/"
+			,	"mappings":		"./test/api/specs/mappings.json"
+			,	"transforms":	"./test/api/specs/transforms.json"
+			}
+		]
 	,	"store":		"./db/jsonStore.js"
 	}
 ,	"application":
@@ -34,23 +41,22 @@
 	}
 ,	"acl":
 	{
-		"aros":"acl_aros"
-	,	"acos":"acl_acos"
-	,	"aros_acos":"acl_aros_acos"
-	,	"roles":"profiles"
+		"profiles":"profiles"
+	,	"profiles_groups":"profiles_groups"
+	,	"groups":"groups"
+	,	"groups_acos":"groups_acos"
+	,	"acos":"acos"
+	,	"assocs":"assocs"
+	,	"groups_permissions":"groups_permissions"
+	,	"groups_acos_permissions":"groups_acos_permissions"
+	,	"permissions":"permissions"
+	,	"groups_acos_assocs":"groups_acos_assocs"
+	,	"groups_acos_assocs_permissions":"groups_acos_assocs_permissions"
 	,	"default_profile":"Guest"
 	}
 ,	"conection":
 	{
 		"icon":	"favicon.ico"
-	,	"header":
-		{
-				"Access-Control-Allow-Origin":	"*"
-			,	"Access-Control-Allow-Methods":	"POST, PUT, GET, DELETE, OPTIONS"
-			,	"Access-Control-Max-Age":		"0"
-			,	"Access-Control-Allow-Headers":	"X-Requested-With"
-			,	"Content-Type":					"text/hal+json; charset=utf-8"
-		}
 	}
 ,	"status_codes":
 	{

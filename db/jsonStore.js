@@ -75,8 +75,24 @@ var	Factory
 				transforms
 			,	function(transform,name)
 				{
+					var	transform_path
+					=	_.find(
+							_.isArray(config.server.input)
+							?	config.server.input
+							:	new Array(config.server.input)
+						,	function(input)
+							{
+								return	fsExists(
+											input.folder
+											+	'data/json/'
+											+	transform.storage.name
+											+	'.json'
+										)
+							}
+						)
+
 					var	path
-					=	config.server.input.folder
+					=	transform_path.folder
 						+	'data/json/'
 						+	transform.storage.name
 						+	'.json'
@@ -117,7 +133,7 @@ var	Factory
 			this.list
 			=	function(name,query)
 				{
-					console.log("Store.list")
+					console.log("Store.list",name)
 					var initial
 					=	_.isUndefined(query.page) || _.isUndefined(query.ipp)
 						?	0
@@ -146,11 +162,11 @@ var	Factory
 					var initial
 					=	_.isUndefined(body.collection_query.page) || _.isUndefined(body.collection_query.ipp)
 						?	0
-						:	body.collection_query.page*body.collection_query.ipp
+						:	body.collection_query.page*body.collection_query.ipp - body.collection_query.ipp
 					,	final
 					=	_.isUndefined(body.collection_query.page) || _.isUndefined(body.collection_query.ipp)
 						?	0
-						:	body.collection_query.page*body.collection_query.ipp+body.collection_query.ipp
+						:	body.collection_query.page*body.collection_query.ipp
 					,	filtered
 					=	_.between(
 							_.filter(
@@ -167,7 +183,7 @@ var	Factory
 					return	Q(
 								{
 									data:	filtered
-								,	count:	filtered.length
+								,	count:	this.sources[name].length
 								}
 							)
 				}
@@ -324,7 +340,9 @@ var	Factory
 					_.extend(
 						data
 					,	{
-							id: parseInt(last.id) + 1
+							id: _.isUndefined(last)
+								?	1
+								:	parseInt(last.id) + 1
 						}
 					)
 

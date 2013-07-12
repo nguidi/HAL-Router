@@ -31,6 +31,9 @@
 		,	"nor-hal":"latest"
 		,	"underscore.string":"latest"
 		,	"virgen-acl":"latest"
+		,	"nstore":"latest"
+		,	"sessionstore":"latest"
+		,	"cors":"latest"
 		}
 	,	"devDependencies":
 		{

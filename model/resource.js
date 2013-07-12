@@ -18,6 +18,10 @@ var	Factory
 						{
 							this.name
 							=	name
+
+							this.template
+							=	transform.template
+							||	'/{name}/{id}'
 							
 							this.associations
 							=	_.map(
@@ -42,22 +46,6 @@ var	Factory
 							this.store
 							=	new Object()
 
-							this.assoc_method
-							=	function(req,assoc_target,data)
-								{
-									var	assoc
-									=	_.find(
-											this.associations
-										,	function(assoc)
-											{
-												return	_.isEqual(assoc.target,assoc_target.source)
-													&&	_.isEqual(assoc.key,assoc_target.target_key)
-													&&	_.isEqual(assoc.target_key,assoc_target.key)
-											}
-										)
-									return	assoc.create_request(req,data)
-								}
-
 							this.find_assoc
 							=	function(assoc_name)
 								{
@@ -75,16 +63,21 @@ var	Factory
 							=	function(data)
 								{
 									var resource_url
-									=	_.isDefined(data)
-										?	this.name+'/'+data.id
-										:	this.name
+									=	uritemplate(
+											this.template
+										).expand(
+											_.extend(
+												_.clone(this)
+											,	data
+											)
+										)
 
 									return	URL.format(
 													{
 														protocol:	config.server.protocol
 													,	hostname:	config.server.host
 													,	port:		config.server.port
-													,	pathname:	config.server.base+'/'+resource_url
+													,	pathname:	config.server.base+resource_url
 													}
 												)
 								}
@@ -142,7 +135,6 @@ var	Factory
 																}	
 															)
 													}
-
 													hal_resource
 														.link(
 															name

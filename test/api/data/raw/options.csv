@@ -1,0 +1,4 @@
+ID,ID_MENU,TITLE,CONTENT,TARGET,TARGET_ID,TARGET_ASSOC
+1,1,Grupos,content,groups,,
+2,1,Acos,content,acos,,
+3,1,Asignaciones,content,groups,,

@@ -1,0 +1,95 @@
+{
+	"orders":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"id_customer":"ID_CUSTOMER"
+		,	"order_date":"ORDER_DATE"
+		}
+	}
+,	"customers":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"name":"NAME"
+		}
+	}
+,	"physicians":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"name":"NAME"
+		}
+	}
+,	"appointments":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"id_physician":"ID_PHYSICIAN"
+		,	"id_patient":"ID_PATIENT"
+		,	"appointment_date":"APPOINTMENT_DATE"
+		}
+	}
+,	"patients":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"name":"NAME"
+		}
+	}
+,	"supliers":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"name":"NAME"
+		}
+	}
+,	"accounts":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"id_suplier":"ID_SUPLIER"
+		,	"account_number":"ACCOUNT_NUMBER"
+		}
+	}
+,	"account_histories":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"id_account":"ID_ACCOUNT"
+		,	"credit_rating":"CREDIT_RATING"
+		}
+	}
+,	"assamblies":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"name":"NAME"
+		}
+	}
+,	"assamblies_parts":
+	{
+		"fields":
+		{
+			"id_assambly":"ID_ASSAMBLY"
+		,	"id_part":"ID_PART"
+		}
+	}
+,	"parts":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"part_number":"PART_NUMBER"
+		}
+	}
+}

@@ -1,3 +1,7 @@
 node_modules/
-test/service/data/csv/
-test/service/data/json/
+test/acl/data/csv/
+test/acl/data/json/
+test/api/data/csv/
+test/api/data/json/
+test/relations/data/csv/
+test/relations/data/json/

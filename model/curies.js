@@ -83,7 +83,7 @@ var	Factory
 								,	templated:	true
 								}
 							]
-						,	'has-many-and-belongs-to':
+						,	'has-and-belongs-to-many':
 							[
 								{
 									name:		'find'
@@ -92,6 +92,19 @@ var	Factory
 								}
 							,	{
 									name:		'filter'
+								,	href:		assoc_url
+								,	templated:	true
+								}
+							]
+						,	'link':
+							[
+								{
+									name:		'show'
+								,	href:		assoc_url
+								,	templated:	true
+								}
+							,	{
+									name:		'list'
 								,	href:		assoc_url
 								,	templated:	true
 								}

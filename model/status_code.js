@@ -3,6 +3,7 @@ var	Factory
 		_
 	,	URL
 	,	HAL
+	,	uritemplate
 	)
 	{
 		return	function(config)
@@ -14,6 +15,10 @@ var	Factory
 							this.name
 							=	'status_codes'
 
+							this.template
+							=	config.status_codes.template
+							||	'/{name}/{code}'
+
 							this.store
 							=	new Object()
 
@@ -21,14 +26,26 @@ var	Factory
 							=	this
 
 							this.url
-							=	function(code)
+							=	function(id_code)
 								{
+									var	status_code_url
+									=	uritemplate(
+											this.template
+										).expand(
+											_.extend(
+												this
+											,	{
+													code: id_code
+												}
+											)
+										)
+
 									return	URL.format(
 													{
 														protocol:	config.server.protocol
 													,	hostname:	config.server.host
 													,	port:		config.server.port
-													,	pathname:	config.server.base+'/'+this.name+'/'+code
+													,	pathname:	config.server.base+status_code_url
 													}
 												)
 								}

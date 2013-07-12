@@ -1,0 +1,90 @@
+{
+	"users":
+	{
+		"storage":
+		{
+			"name":"users"
+		}
+	,	"associations":
+		{
+			"profile":
+			{
+				"type":"belongs-to"
+			,	"target":"profiles"
+			,	"key":"id_profile"
+			}
+		}
+	}
+,	"welcomes":
+	{
+		"storage":
+		{
+			"name":"welcomes"
+		}
+	,	"root":"true"
+	}
+,	"menus":
+	{
+		"storage":
+		{
+			"name":"menus"
+		}
+	,	"associations":
+		{
+			"options":
+			{
+				"type":"has-many"
+			,	"target":"options"
+			,	"target_key":"id_menu"
+			,	"embedded":"partial"
+			}
+		,	"option_submenu":
+			{
+				"type":"belongs-to"
+			,	"target":"menus"
+			,	"key":"id_submenu"
+			}
+		,	"profile":
+			{
+				"type":"belongs-to"
+			,	"target":"profiles"
+			,	"key":"id_profile"
+			}
+		}
+	}
+,	"options":
+	{
+		"storage":
+		{
+			"name": "options"
+		}
+	,	"associations":
+		{
+			"menu":
+			{
+				"type":"belongs-to"
+			,	"target":"menus"
+			,	"key":"id_menu"
+			}
+		,	"submenu":
+			{
+				"type":"has-one"
+			,	"target":"menus"
+			,	"target_key":"id_submenu"
+			}
+		,	"{content}:{name}":
+			{
+				"type":"link"
+			,	"template":"/{target}/{id}/{assoc}"
+			,	"attrs":
+				{
+					"name":"title"
+				,	"content":"content"
+				,	"target":"target"
+				,	"id":"target_id"
+				,	"assoc":"target_assoc"
+				}
+			}
+		}
+	}
+}

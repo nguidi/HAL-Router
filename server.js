@@ -53,6 +53,8 @@ var	express
 	)
 ,	Q
 =	require('q')
+,	uritemplate
+=	require(base_lib+'uritemplates.js').parse
 ,	dbStore
 =	require(config.server.store)(
 		_
@@ -60,10 +62,29 @@ var	express
 	,	logger
 	)
 ,	mappings
-=	require(server.input.mappings)
+=	{}
 ,	transforms
-=	require(server.input.transforms)
-,	AppCheckout
+=	{}
+
+_.each(
+	_.isArray(server.input)
+	?	server.input
+	:	new Array(server.input)
+,	function(input)
+	{
+		_.extend(
+			mappings
+		,	require(input.mappings)
+		)
+
+		_.extend(
+			transforms
+		,	require(input.transforms)
+		)
+	}
+)
+
+var	AppCheckout
 =	require(base_lib+'checkout.js')(
 		_
 	,	logger
@@ -87,6 +108,11 @@ var	Store
 	)
 ,	ACL
 =	new api_acl(config)
+,	nStore
+=	require('nstore')
+,	SessionStore
+=	require(base_lib+'nStoreSession.js')
+
 ACL
 	.create()
 	.then(
@@ -96,12 +122,14 @@ ACL
 			=	require(base_model+'curies.js')(
 					_
 				,	URL
+				,	uritemplate
 				)
 			,	ModelApi
 			=	require(base_model+'api.js')(
 					_
 				,	URL
 				,	new ModelCuries(config)
+				,	uritemplate
 				)
 			,	ModelAssociation
 			=	require(base_model+'association.js')(
@@ -110,12 +138,14 @@ ACL
 				,	Q
 				,	new ModelCuries(config)
 				,	data_acl
+				,	uritemplate
 				)
 			,	ModelStatusCodes
 			=	require(base_model+'status_code.js')(
 					_
 				,	URL
 				,	HAL
+				,	uritemplate
 				)
 			,	ModelResource
 			=	require(base_model+'resource.js')(
@@ -129,6 +159,7 @@ ACL
 					,	new ModelAssociation(config,transforms)
 					,	new ModelStatusCodes(config)
 					)
+				,	uritemplate
 				)
 			,	ModelBuilder
 			=	require(base_lib+'model-builder.js')(
@@ -166,6 +197,8 @@ ACL
 					)
 				,	ACL
 				)
+			,	cors
+			=	require('cors')
 			,	Application
 			=	new ApplicationManager(config)
 
@@ -173,45 +206,58 @@ ACL
 			logger.info("Escuchando Puerto N° "+config.server.port)
 
 			var	app
-			=	express();
-
-			app.use(
-				express.logger('dev')
-			)
-			app.use(
-				express
-					.favicon(
-						base_pub+config.conection.icon
+			=	express()
+			app.configure(
+				function()
+				{
+					app.use(
+						express.logger('dev')
 					)
+					app.use(
+						express
+							.favicon(
+								base_pub+config.conection.icon
+							)
+					)
+					app.use(
+						express.bodyParser()
+					)
+					app.use(
+						express.cookieParser()
+					)
+					app.use(
+						express.session(
+							{
+								secret:	'developers love cats'
+							,	store:	new SessionStore(
+												{
+													dbFile:	'temp/sessions.db'
+												,	maxAge:	144000
+												}
+											)
+							,	
+							}
+						)
+					)
+					app.use(
+						cors(
+							{
+								origin: 'http://trabajando'
+							,	methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS']
+							,	headers: ['X-Requested-With', 'Content-Type', 'accept']
+							,	credentials: true
+							}
+						)
+					)
+				}
 			)
-			app.use(
-				express.bodyParser()
-			)
-			app.use(
-				express.cookieParser()
-			)
-			app.use(
-				express.cookieSession(
-					{
-						secret: 'keyboard cat'
-					,	cookie:
-						{
-							maxAge: 1440000
-						}
-					}
-				)
-			)
+
 			app.use(
 				function(req,res)
 				{
 					var	Status_codes
 					=	new (new ModelStatusCodes(config)).Status_codes()
-
-					res.set(
-						config.conection.header
-					)
-
-					var requested_url
+					,	requested_url
 					=	URL.parse(req.url.match(RegExp('^'+config.server.api_base+'(.*)$'))[1]).pathname
 					,	api_link
 					=	_.find(

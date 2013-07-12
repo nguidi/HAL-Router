@@ -1,0 +1,101 @@
+{
+	"profiles":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"name":"NAME"
+		}
+	}
+,	"groups":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"id_profile":"ID_PROFILE"
+		,	"name":"NAME"
+		}
+	}
+,	"acos":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"name":"NAME"
+		}
+	}
+,	"assocs":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"id_aco":"ID_ACO"
+		,	"id_assoc":"ID_ASSOC"
+		}
+	}
+,	"permissions":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"name":"NAME"
+		}
+	}
+,	"profiles_groups":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"id_profile":"ID_PROFILE"
+		,	"id_group":"ID_GROUP"
+		}
+	}
+,	"groups_permissions":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"id_group":"ID_GROUP"
+		,	"id_permission":"ID_PERMISSION"
+		,	"allow":"ALLOW"
+		}
+	}
+,	"groups_acos":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"id_group":"ID_GROUP"
+		,	"id_aco":"ID_ACO"
+		}
+	}
+,	"groups_acos_permissions":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"id_group_aco":"ID_GROUP_ACO"
+		,	"id_permission":"ID_PERMISSION"
+		,	"allow":"ALLOW"
+		}
+	}
+,	"groups_acos_assocs":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"id_group_aco":"ID_GROUP_ACO"
+		,	"id_assoc":"ID_ASSOC"
+		}
+	}
+,	"groups_acos_assocs_permissions":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"id_group_aco_assoc":"ID_GROUP_ACO_ASSOC"
+		,	"id_permission":"ID_PERMISSION"
+		,	"allow":"ALLOW"
+		}
+	}
+}

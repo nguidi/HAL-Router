@@ -9,7 +9,7 @@ var	Factory
 		return	function(config)
 				{
 
-					this.Api_Association
+					this.Link
 					=	function(spec_key)
 						{
 							return	_.map(
