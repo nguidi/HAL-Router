@@ -43,6 +43,8 @@ var	base_lib
 	}
 var	express
 =	require('express')
+,	load
+=	require('express-load')
 ,	nor_hal
 =	require('nor-hal')
 	HAL
@@ -207,6 +209,24 @@ ACL
 
 			var	app
 			=	express()
+
+			_.each(
+				config.application.rests
+			,	function(rest_api)
+				{
+					_.each(
+						require(rest_api)
+					,	function(rest)
+						{
+							app[rest.method](
+								rest.url
+							,	rest.function
+							)
+						}
+					)
+				}
+			)
+
 			app.configure(
 				function()
 				{
@@ -251,6 +271,14 @@ ACL
 					)
 				}
 			)
+
+			load(
+				'routes'
+			,	{
+					checkext:true
+				,	extlist:['.js']
+				}
+			).into(app);
 
 			app.use(
 				function(req,res)
@@ -306,6 +334,7 @@ ACL
 
 				}
 			)
+
 			app.listen(
 				server.port
 			)

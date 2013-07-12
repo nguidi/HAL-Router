@@ -5,3 +5,4 @@ test/api/data/csv/
 test/api/data/json/
 test/relations/data/csv/
 test/relations/data/json/
+temp/
