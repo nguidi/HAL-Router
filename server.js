@@ -198,6 +198,7 @@ ACL
 					,	new ModelStatusCodes(config)	
 					)
 				,	ACL
+				,	Builder
 				)
 			,	cors
 			=	require('cors')
@@ -275,14 +276,20 @@ ACL
 			load(
 				'routes'
 			,	{
-					checkext:true
-				,	extlist:['.js']
+					checkext:	true
+				,	extlist:	['.js']
 				}
-			).into(app);
+			).into(app)
 
 			app.use(
 				function(req,res)
 				{
+					_.extend(
+						req
+					,	{
+							visited: []
+						}
+					)
 					var	Status_codes
 					=	new (new ModelStatusCodes(config)).Status_codes()
 					,	requested_url
@@ -307,28 +314,25 @@ ACL
 								{
 									console.log("Application.hal_result")
 									res.json(
-										hal_result
+										hal_result.toJSON()
 									)
+									res.send(hal_result)
 								}
 							)
 					}	else 	{
 						Builder
 							.resolve(
-								_.extend(
-									req
-								,	{
-										visited: []
-									}
-								)
+								req
 							)
-						.then(
-							function(hal_result)
-							{
-								console.log("Builder.hal_result")
-								res.json(
-									hal_result
-								)
-							}
+							.then(
+								function(hal_result)
+								{
+									console.log("Builder.hal_result")
+									res.json(
+										hal_result.toJSON()
+									)
+									res.send(hal_result)
+								}
 						)
 					}
 

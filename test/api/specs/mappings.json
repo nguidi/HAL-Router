@@ -6,7 +6,7 @@
 			"id":"ID"
 		,	"id_profile":"ID_PROFILE"
 		,	"username":"username"
-		,	"passoword":"PASSWORD"
+		,	"password":"PASSWORD"
 		}
 	}
 ,	"welcomes":
@@ -40,6 +40,35 @@
 		,	"target":"TARGET"
 		,	"target_id":"TARGET_ID"
 		,	"target_assoc":"TARGET_ASSOC"
+		}
+	}
+,	"topbars":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"id_profile":"ID_PROFILE"
+		,	"id_menu":"ID_MENU"
+		,	"id_brand":"ID_BRAND"
+		}
+	}
+,	"footbars":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"id_profile":"ID_PROFILE"
+		,	"id_menu":"ID_MENU"
+		,	"description":"DESCRIPTION"
+		,	"owner":"OWNER"
+		}
+	}
+,	"brands":
+	{
+		"fields":
+		{
+			"id":"ID"
+		,	"brand":"BRAND"
 		}
 	}
 }

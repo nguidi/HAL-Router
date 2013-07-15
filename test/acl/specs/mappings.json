@@ -5,6 +5,8 @@
 		{
 			"id":"ID"
 		,	"name":"NAME"
+		,	"id_topbar":"ID_TOPBAR"
+		,	"id_footbar":"ID_FOOTBAR"
 		}
 	}
 ,	"groups":

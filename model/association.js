@@ -77,7 +77,8 @@ var	Factory
 									=	assoc.through
 
 									this.through_key
-									=	_.find(
+									=	assoc.through_key
+									||	_.find(
 											transforms[assoc.through].associations
 										,	function(through_assoc)
 											{
@@ -86,7 +87,8 @@ var	Factory
 										)['key']
 
 									this.through_target_key
-									=	_.find(
+									=	assoc.through_target_key
+									||	_.find(
 											transforms[assoc.target].associations
 										,	function(through_assoc)
 											{
@@ -152,6 +154,16 @@ var	Factory
 													:	curie.name
 												,	function(err, allowed)
 													{
+														console.log(
+															profile
+														,	_.isDefined(target) && !_.isNull(target)
+															?	source+':'+target
+															:	source
+														,	_.contains(['show','list','find','filter'],curie.name)
+															?	'view'
+															:	curie.name
+														,	allowed
+														)
 														var	renamed
 														=	(
 																_.isDefined(attrs)
@@ -185,6 +197,14 @@ var	Factory
 									)
 
 									return	links
+								}
+
+							this.get_query_key
+							=	function()
+								{
+									return	_.str.include(this.type,'has')
+											?	this.key
+											:	this.target_key
 								}
 
 							this.get_action
@@ -229,7 +249,7 @@ var	Factory
 							this.generate_body
 							=	function(data)
 								{
-									console.log("Assoc.generate_query")
+									console.log("Assoc.generate_body")
 									return	{
 												action:		this.get_action()
 											,	query:		this.get_query(data)
@@ -255,7 +275,6 @@ var	Factory
 											}
 										)
 									}
-
 									return	obj	
 								}
 

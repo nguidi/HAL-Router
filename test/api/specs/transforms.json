@@ -12,6 +12,7 @@
 				"type":"belongs-to"
 			,	"target":"profiles"
 			,	"key":"id_profile"
+			,	"embedded":"*"
 			}
 		}
 	}
@@ -43,12 +44,6 @@
 				"type":"belongs-to"
 			,	"target":"menus"
 			,	"key":"id_submenu"
-			}
-		,	"profile":
-			{
-				"type":"belongs-to"
-			,	"target":"profiles"
-			,	"key":"id_profile"
 			}
 		}
 	}
@@ -84,6 +79,75 @@
 				,	"id":"target_id"
 				,	"assoc":"target_assoc"
 				}
+			}
+		}
+	}
+,	"topbars":
+	{
+		"storage":
+		{
+			"name":"topbars"
+		}
+	,	"associations":
+		{
+			"profile":
+			{
+				"type":"belongs-to"
+			,	"target":"profiles"
+			,	"key":"id_profile"
+			}
+		,	"menu":
+			{
+				"type":"belongs-to"
+			,	"target":"menus"
+			,	"key":"id_menu"
+			,	"embedded":"*"
+			}
+		,	"brand":
+			{
+				"type":"belongs-to"
+			,	"target":"brands"
+			,	"key":"id_brand"
+			,	"embedded":"*"
+			}
+		}
+	}
+,	"footbars":
+	{
+		"storage":
+		{
+			"name":"footbars"
+		}
+	,	"associations":
+		{
+			"profile":
+			{
+				"type":"belongs-to"
+			,	"target":"profiles"
+			,	"key":"id_profile"
+			}
+		,	"menu":
+			{
+				"type":"belongs-to"
+			,	"target":"menus"
+			,	"key":"id_menu"
+			,	"embedded":"*"
+			}
+		}
+	}
+,	"brands":
+	{
+		"storage":
+		{
+			"name":"brands"
+		}
+	,	"associations":
+		{
+			"topbar":
+			{
+				"type":"has-many"
+			,	"target":"topbars"
+			,	"target_key":"id_brand"
 			}
 		}
 	}

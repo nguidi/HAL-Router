@@ -14,10 +14,24 @@
 			,	"through":"profiles_groups"
 			,	"target_key":"id_group"
 			}
-		,	"menus":
+		,	"topbar":
+			{
+				"type":"has-one"
+			,	"target":"topbars"
+			,	"target_key":"id_profile"
+			,	"embedded":"*"
+			}
+		,	"footbar":
+			{
+				"type":"has-one"
+			,	"target":"footbars"
+			,	"target_key":"id_profile"
+			,	"embedded":"*"
+			}
+		,	"users":
 			{
 				"type":"has-many"
-			,	"target":"menus"
+			,	"target":"users"
 			,	"target_key":"id_profile"
 			}
 		}
@@ -43,6 +57,7 @@
 			,	"target":"permissions"
 			,	"through":"groups_permissions"
 			,	"target_key":"id_permission"
+			,	"embedded":"partial"
 			}
 		,	"acos":
 			{
@@ -50,6 +65,7 @@
 			,	"target":"acos"
 			,	"through":"groups_acos"
 			,	"target_key":"id_aco"
+			,	"embedded":"*"
 			}
 		}
 	}
@@ -74,12 +90,20 @@
 			,	"target":"permissions"
 			,	"through":"acos_permissions"
 			,	"target_key":"id_permission"
+			,	"embedded":"partial"
 			}
 		,	"assocs":
 			{
 				"type":"has-many"
 			,	"target":"assocs"
 			,	"target_key":"id_aco"
+			,	"embedded":"*"
+			}
+		,	"assocs_acos":
+			{
+				"type":"has-many"
+			,	"target":"assocs"
+			,	"target_key":"id_assoc"
 			}
 		}
 	}
@@ -102,6 +126,7 @@
 				"type":"belongs-to"
 			,	"target":"acos"
 			,	"key":"id_assoc"
+			,	"embedded":"partial"
 			}
 		}
 	}

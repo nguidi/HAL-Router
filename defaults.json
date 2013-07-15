@@ -23,12 +23,12 @@
 	,	"has-many:through":
 		{
 			"required": ["type","target","through"]
-		,	"optional": ["key","target_key","embedded"] 
+		,	"optional": ["key","target_key","through_key","through_target_key","embedded"] 
 		}
 	,	"has-one:through":
 		{
 			"required": ["type","target","through"]
-		,	"optional": ["key","target_key","embedded"] 
+		,	"optional": ["key","target_key","through_key","through_target_key","embedded"] 
 		}
 	,	"belongs-to":
 		{

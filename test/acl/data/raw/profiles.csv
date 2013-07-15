@@ -1,3 +1,3 @@
-ID,NAME
-1,ACL Manager
-2,Guest
+ID,NAME,ID_TOPBAR,ID_FOOTBAR
+1,ACL Manager,1,2
+2,Guest,,
