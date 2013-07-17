@@ -24,7 +24,8 @@
 		}
 	,	"dependencies":
 		{
-			"express": "latest"
+			"commander":"latest"
+		,	"express": "latest"
 		,	"log-color": "latest"
 		,	"q":"latest"
 		,	"underscore":"latest"

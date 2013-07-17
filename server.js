@@ -3,6 +3,44 @@ var	config
 =	require('./config.json')
 if(!config)
 	throw new Error("config.json not loaded")
+var	fs
+=	require('fs')
+,	fsExists
+=	fs.existsSync || path.existsSync
+,	program
+=	require('commander')
+		.version('0.0.1')
+		.option(
+				'-c, --config <config.json>'
+			,	'config file [./config.json]'
+			,	String
+		)
+		.parse(process.argv)
+,	custom_config
+=	fsExists(program.config) && require(program.config)
+,	_
+=	require('underscore')
+	_.str
+=	require('underscore.string');
+	_.isDefined
+=	function(what)
+	{
+		return	!_.isUndefined(what)
+	}
+if	(custom_config)
+	_.each(
+		custom_config
+	,	function(c,k)
+		{
+			if	(_.isObject(c))
+				_.extend(
+					config[k]
+				,	c
+				)
+			else
+				config[k]=c
+		}
+	)
 var defaults
 =	require('./defaults.json')
 if(!defaults)
@@ -32,16 +70,7 @@ var	base_lib
 =	require('url')
 ,	querystring
 =	require('querystring')
-,	_
-=	require('underscore')
-	_.str
-=	require('underscore.string');
-	_.isDefined
-=	function(what)
-	{
-		return	!_.isUndefined(what)
-	}
-var	express
+,	express
 =	require('express')
 ,	load
 =	require('express-load')
@@ -284,6 +313,7 @@ ACL
 			app.use(
 				function(req,res)
 				{
+					console.log(req.url)
 					_.extend(
 						req
 					,	{

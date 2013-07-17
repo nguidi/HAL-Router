@@ -16,12 +16,12 @@ var	Factory
 					this.Resource
 					=	function(name,transform,mapping)
 						{
-							this.name
+							this.transform_name
 							=	name
 
 							this.template
 							=	transform.template
-							||	'/{name}/{id}'
+							||	'/{transform_name}/{id}'
 							
 							this.associations
 							=	_.map(

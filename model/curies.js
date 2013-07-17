@@ -12,7 +12,7 @@ var	Factory
 									protocol:	config.server.protocol
 								,	hostname:	config.server.host
 								,	port:		config.server.port
-								,	pathname:	config.server.api_base+'/{model}/{id}/{assoc}'
+								,	pathname:	config.server.base+'/{model}/{id}/{assoc}'
 								}
 							)
 					,	api_url
