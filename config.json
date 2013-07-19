@@ -1,0 +1,39 @@
+{
+	"server": 
+	{
+		"name":		"Data Server"
+	,	"base":		"/api/data"
+	,	"api_base":	"/api"
+	,	"host":		"trabajando"
+	,	"port":		"3003"
+	,	"protocol":	"http"
+	}
+,	"input":
+	[
+		{
+			"folder":		"/var/www/HAL-ACL/service/data/acl/"
+		,	"mappings":		"/var/www/HAL-ACL/service/data/acl/specs/mappings.json"
+		,	"transforms":	"/var/www/HAL-ACL/service/data/acl/specs/transforms.json"
+		}
+	,	{
+			"folder":		"/var/www/HAL-ACL/service/data/api/"
+		,	"mappings":		"/var/www/HAL-ACL/service/data/api/specs/mappings.json"
+		,	"transforms":	"/var/www/HAL-ACL/service/data/api/specs/transforms.json"
+		}
+	]
+,	"application":
+	{
+		"users":	"users"
+	,	"links":
+		{
+			"signin":	"/signin"
+		,	"signout":	"/signout"
+		,	"signup":	"/signup"
+		}
+	,	"routes":	"../service/routes/"
+	}
+,	"db":
+	{
+		"driver":"../db/nStoreStore.js"
+	}
+}

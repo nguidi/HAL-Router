@@ -1,0 +1,59 @@
+{
+	"mappings":
+	{
+		"required": ["fields"]
+	}
+,	"transforms":
+	{
+		"required": ["storage"]
+	,	"optional": ["associations","collection","root"] 
+	}
+,	"associations":
+	{
+		"has-many":
+		{
+			"required": ["type","target","target_key"]
+		,	"optional": ["key","embedded"] 
+		}
+	,	"has-one":
+		{
+			"required": ["type","target","target_key"]
+		,	"optional": ["key","embedded"] 
+		}
+	,	"has-many:through":
+		{
+			"required": ["type","target","through"]
+		,	"optional": ["key","target_key","through_key","through_target_key","embedded"] 
+		}
+	,	"has-one:through":
+		{
+			"required": ["type","target","through"]
+		,	"optional": ["key","target_key","through_key","through_target_key","embedded"] 
+		}
+	,	"belongs-to":
+		{
+			"required": ["type","target","key"]
+		,	"optional": ["target_key","embedded"] 
+		}
+	,	"has-and-belongs-to-many":
+		{
+			"required": ["type","target","target_key","through"]
+		,	"optional": ["key","embedded"] 
+		}
+	,	"link":
+		{
+			"required": ["type","template"]
+		,	"optional": ["attrs"]
+		}
+	}
+,	"embedded":
+	{
+		"type": ["none","partial","full","*"]
+	,	"optional": ["collection"]
+	}
+,	"collection":
+	{
+		"required": ["type"]
+	,	"optional": ["ipp","page"]
+	}
+}

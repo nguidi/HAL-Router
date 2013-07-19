@@ -1,0 +1,41 @@
+{
+		"name": "node-rest-service"
+	,	"version": "0.0.1"
+	,	"description": "Rest Service Built In NodeJS"
+	,	"author": "Guidi Neri <neri3004@gmail.com>"
+	,	"contributors":
+			[
+			]
+	,	"engines":
+			{
+				"node": ">= 0.6.0"
+			}
+	,	"keywords":
+		[
+			"json"
+		,	"hal"
+		,	"hypermedia"
+		,	"server"
+		]
+	,	"repository":
+		{
+			"type": "git"
+		,	"url": "git@github.com:nguidi/HAL-Router.git"
+		}
+	,	"dependencies":
+		{
+			"express": "latest"
+		,	"log-color": "latest"
+		,	"q":"latest"
+		,	"underscore":"latest"
+		,	"underscore.string":"latest"
+		,	"virgen-acl":"latest"
+		,	"nstore":"latest"
+		,	"sessionstore":"latest"
+		,	"nor-hal":"latest"
+		,	"express-load":"latest"
+		}
+	,	"devDependencies":
+		{
+		}
+}
