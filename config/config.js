@@ -2,6 +2,8 @@ var	config
 =	require('../config.json')
 ,	_
 =	require('underscore')
+,	URL
+=	require('url')
 if(!config)
 	throw new Error("config.json not loaded")
 
@@ -22,6 +24,20 @@ module.exports
 		=	{}
 		,	db
 		=	require(config.db.driver)
+		,	status_codes_store
+		=	new Object()
+
+		_.each(
+			config.status_codes
+		,	function(status,code)
+			{
+				status_codes_store[code]
+				=	{
+						code:	code
+					,	status:	status
+					}
+			}
+		)
 		
 		_.each(
 			_.isArray(config.input)
@@ -41,7 +57,131 @@ module.exports
 			}
 		)
 
-		app.set('mappings',mappings)
-		app.set('transforms',transforms)
-		app.set('Store',new db.Store(config,transforms,mappings))
+		app.set(
+			'mappings'
+		,	mappings
+		)
+		app.set(
+			'transforms'
+		,	transforms
+		)
+		app.set(
+			'Store'
+		,	new db.Store(config,transforms,mappings)
+		)
+		app.set(
+			'status_codes'
+		,	status_codes_store
+		)
+		app.set(
+			'base_url'
+		,	URL.format(
+				{
+					protocol:	config.server.protocol
+				,	hostname:	config.server.host
+				,	port:		config.server.port
+				,	pathname:	config.server.base
+				}
+			)
+		)
+		app.set(
+			'api_url'
+		,	URL.format(
+				{
+					protocol:	config.server.protocol
+				,	hostname:	config.server.host
+				,	port:		config.server.port
+				,	pathname:	config.server.api_base
+				}
+			)
+		)
+		app.set(
+			'curies'
+		,	{
+				api:
+				[
+					{
+						name:		'api'
+					,	href:		app.get('api_url')
+					,	templated:	true
+					}
+				]
+			,	'has-one':
+				[
+					{
+						name:		'show'
+					,	href:		app.get('base_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'update'
+					,	href:		app.get('base_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'create'
+					,	href:		app.get('base_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'delete'
+					,	href:		app.get('base_url')
+					,	templated:	true
+					}
+				]
+			,	'belongs-to':
+				[
+					{
+						name:		'show'
+					,	href:		app.get('base_url')
+					,	templated:	true
+					}
+				]
+			,	'has-many':
+				[
+					{
+						name:		'list'
+					,	href:		app.get('base_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'find'
+					,	href:		app.get('base_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'filter'
+					,	href:		app.get('base_url')
+					,	templated:	true
+					}
+				]
+			,	'has-and-belongs-to-many':
+				[
+					{
+						name:		'find'
+					,	href:		app.get('base_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'filter'
+					,	href:		app.get('base_url')
+					,	templated:	true
+					}
+				]
+			,	'link':
+				[
+					{
+						name:		'show'
+					,	href:		app.get('base_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'list'
+					,	href:		app.get('base_url')
+					,	templated:	true
+					}
+				]
+			}
+		)
+
 	}

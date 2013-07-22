@@ -34,6 +34,7 @@
 		,	"sessionstore":"latest"
 		,	"nor-hal":"latest"
 		,	"express-load":"latest"
+		,	"cors":"latest"
 		}
 	,	"devDependencies":
 		{

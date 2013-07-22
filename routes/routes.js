@@ -18,13 +18,14 @@
 module.exports
 =	function(app)
 	{
+		
 		var	_
 		=	require('underscore')
-		,	Store
-		=	app.get('Store')
+		,	Builder
+		=	app.get('builder')
 		,	URL
 		=	require('url')
-		
+
 		var	getCollection
 		=	function(url_or_query_collection,model_collection)
 			{
@@ -57,10 +58,8 @@ module.exports
 							).then(
 								function(data)
 								{
-									// app.build.collection(req,res,data,getCollection(URL.parse(req.url,true).query,model.collection))
 									res.send(
-										app.response.validate(res,data)
-									,	app.build.response(model,data,getCollection(URL.parse(req.url,true).query,model.collection))
+										app.build.response(model,[],data,getCollection(URL.parse(req.url,true).query,model.collection))
 									)
 								}
 							)
@@ -84,10 +83,8 @@ module.exports
 							).then(
 								function(data)
 								{
-									// app.build.resource(req,res,data)
 									res.send(
-										app.response.validate(res,data)
-									,	app.build.response(model,data)
+										app.build.response(model,[],data)
 									)
 								}
 							)

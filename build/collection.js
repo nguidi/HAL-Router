@@ -6,7 +6,7 @@ var	HAL
 module.exports
 =	function(app)
 	{
-		return	function(model,collection,collection_query)
+		return	function(model,allowed,collection,collection_query)
 				{					
 					return	new	HAL.Collection(
 									{
@@ -14,12 +14,12 @@ module.exports
 													collection.data
 												,	function(data)
 													{
-														return	app.build.resource(model,data)
+														return	app.build.resource(model,allowed,data)
 													}
 												)
 									,	count:	collection.count
 									}
-								,	model.url()
+								,	model.url(app.get('base_url'))
 								,	collection_query
 								)
 				}

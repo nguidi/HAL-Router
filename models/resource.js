@@ -16,6 +16,7 @@ module.exports
 							transform_name
 						,	transform
 						,	app.get('mappings')[transform.storage.name]
+						,	app.get('curies')
 						)
 			}
 		)

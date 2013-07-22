@@ -4,16 +4,18 @@ var	_
 module.exports
 =	function(app)
 	{
-		return	function(model,data,queries)
+		return	function(model,allowed,data,queries)
 				{
-					return 	(
-								_.isUndefined(queries)
-							||	(
-									_.isUndefined(data.data)
-								&&	_.isUndefined(data.count)
+					return 	_.isUndefined(data)
+							?	app.build.status(400)
+							:	(
+									_.isUndefined(queries)
+								||	(
+										_.isUndefined(data.data)
+									&&	_.isUndefined(data.count)
+									)
 								)
-							)
-							?	app.build.resource(model,data)
-							:	app.build.collection(model,data,queries)
+								?	app.build.resource(model,allowed,data)
+								:	app.build.collection(model,allowed,data,queries)
 				}
 	}
