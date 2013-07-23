@@ -37,8 +37,8 @@
 		}
 	,	"has-and-belongs-to-many":
 		{
-			"required": ["type","target","target_key","through"]
-		,	"optional": ["key","embedded"] 
+			"required": ["type","target","through_target_key","through"]
+		,	"optional": ["through_key","key","target_key", "embedded"] 
 		}
 	,	"link":
 		{

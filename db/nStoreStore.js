@@ -13,11 +13,14 @@ var	_
 	)
 ,	fs
 =	require('fs')
+,	epath
+=	require('path')
 ,	fsExists
-=	fs.existsSync || path.existsSync
+=	fs.existsSync || epath.existsSync
 ,	nStore
 =	require('nstore')
-nStore	=	nStore.extend(require('nstore/query')())
+nStore
+=	nStore.extend(require('nstore/query')())
 
 _.between
 =	function(array,initial,final)
@@ -92,7 +95,7 @@ function Store(config,transforms,mappings)
 				,	function(input)
 					{
 						return	fsExists(
-									input.folder
+									epath.join(__dirname, input.folder)
 									+	'data/json/'
 									+	transform.storage.name
 									+	'.json'
@@ -101,7 +104,7 @@ function Store(config,transforms,mappings)
 				)
 
 			var	path
-			=	transform_path.folder
+			=	epath.join(__dirname,transform_path.folder)
 				+	'data/json/'
 				+	transform.storage.name
 				+	'.json'
@@ -323,11 +326,11 @@ function Store(config,transforms,mappings)
 			,	initial
 			=	_.isUndefined(body.collection_query.page) || _.isUndefined(body.collection_query.ipp)
 				?	0
-				:	body.collection_query.page*body.collection_query.ipp
+				:	body.collection_query.page*body.collection_query.ipp-body.collection_query.ipp
 			,	final
 			=	_.isUndefined(body.collection_query.page) || _.isUndefined(body.collection_query.ipp)
 				?	0
-				:	body.collection_query.page*body.collection_query.ipp+body.collection_query.ipp
+				:	body.collection_query.page*body.collection_query.ipp
 
 			self.sources[body.through.name]
 					.all(
@@ -341,7 +344,6 @@ function Store(config,transforms,mappings)
 										return	apply_filter({key: body.through.through_key, value: body.through.value},item)
 									}
 								)
-
 							self.sources[name]
 									.all(
 										function(err, sdocs)
@@ -354,7 +356,7 @@ function Store(config,transforms,mappings)
 														,	function(through_item)
 															{
 																return	_.filter(
-																			_.keys(sdocs)
+																			_.values(sdocs)
 																		,	function(item)
 																			{
 																				return	apply_filter({key: body.through.target_key, value: through_item[body.through.through_target_key]},item)

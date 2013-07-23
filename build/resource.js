@@ -2,57 +2,93 @@ var	HAL
 =	require('../lib/hal.js').hal
 ,	_
 =	require('underscore')
+,	Q
+=	require('q')
 
 module.exports
 =	function(app)
 	{
-		return	function(model,allowed,data)
+		return	function(req,model,data)
 				{
-					var	resource
-					=	new	HAL.Resource(
-								_.pick(
+					var	deferred
+					=	Q.defer()
+
+					if	(_.isEmpty(data))
+						deferred
+							.resolve(
+								app.build.status(404)
+							)
+					else	{
+						var	resource
+						=	new	HAL.Resource(
 									data
-								,	model.get_fields()
+								,	model.url(data)
 								)
-							,	model.url(app.get('base_url'),data)
+
+						resource
+							.link(
+								'curies'
+							,	_.map(
+									model.get_curies()
+								,	function(curie)
+									{
+										return	curie
+									}
+								)
 							)
 
-					resource
-						.link(
-							'curies'
-						,	_.map(
-								model.get_curies(allowed)
-							,	function(curie)
-								{
-									return	curie
-								}
-							)
+						_.each(
+							model.get_links(data)
+						,	function(link_data,link)
+							{
+								resource
+									.link(
+										link
+									,	link_data
+									)
+							}
 						)
 
-					_.each(
-						model.get_links(allowed,data)
-					,	function(link_data,link)
-						{
-							resource
-								.link(
-									link
-								,	link_data
+						var	assocs
+						=	model.get_associations(req,data)
+						if	(_.isEmpty(assocs))
+							deferred
+									.resolve(
+										resource
+									)
+						else
+							Q.all(
+								_.map(
+									assocs
+								,	function(assoc)
+									{
+										return	model.resolve_assoc(req,assoc,data)
+									}
 								)
-						}
-					)
+							).then(
+								function(embeddeds)
+								{
+									if	(!_.isEmpty(embeddeds))
+										_.each(
+											embeddeds
+										,	function(embedded,index)
+											{
+												resource
+													.embed(
+														embedded.name
+													,	embedded
+													)
+											}
+										)
+									deferred
+										.resolve(
+											resource
+										)
+								}
+							)
+					}
 
-					_.each(
-						model.get_embeddeds(data)
-					,	function(embedded)
-						{
-							resource
-								.embed(
-									embedded
-								,	data[embedded]
-								)
-						}
-					)
 
-					return	resource	
+					return	deferred.promise	
 				}
 	}

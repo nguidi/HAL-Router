@@ -34,6 +34,19 @@ app.use(
 )
 
 app.use(
+	function(req,res,next)
+	{
+		_.extend(
+			req
+		,	{
+				visited:	new Array()
+			}
+		)
+		next()
+	}
+)
+
+app.use(
 	express.logger('dev')
 )
 

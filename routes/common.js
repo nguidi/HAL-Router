@@ -21,8 +21,6 @@ module.exports
 		
 		var	_
 		=	require('underscore')
-		,	Builder
-		=	app.get('builder')
 		,	URL
 		=	require('url')
 
@@ -51,16 +49,28 @@ module.exports
 					)
 				,	function(req,res)
 					{
-						Store
-							.list(
-								model.name
-							,	getCollection(URL.parse(req.url,true).query,model.collection)
+						model
+							.findAll(
+								getCollection(URL.parse(req.url,true).query,model.collection)
 							).then(
 								function(data)
 								{
-									res.send(
-										app.build.response(model,[],data,getCollection(URL.parse(req.url,true).query,model.collection))
-									)
+									app
+										.build
+											.collection(
+												req
+											,	model
+											,	data
+											,	getCollection(
+													URL.parse(req.url,true).query
+												,	model.collection
+												)
+											).then(
+												function(collection)
+												{
+													res.send(collection)
+												}
+											)
 								}
 							)
 					}
@@ -76,16 +86,24 @@ module.exports
 					)
 				,	function(req,res)
 					{
-						Store
-							.show(
-								model.name
-							,	req.params[model.key]
+						model
+							.findOne(
+								req.params[model.key]
 							).then(
 								function(data)
 								{
-									res.send(
-										app.build.response(model,[],data)
-									)
+									app
+										.build
+											.resource(
+												req
+											,	model
+											,	data
+											).then(
+												function(resource)
+												{
+													res.send(resource)
+												}
+											)
 								}
 							)
 					}

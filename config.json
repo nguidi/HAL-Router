@@ -11,26 +11,17 @@
 ,	"input":
 	[
 		{
-			"folder":		"/var/www/HAL-ACL/service/data/acl/"
-		,	"mappings":		"/var/www/HAL-ACL/service/data/acl/specs/mappings.json"
-		,	"transforms":	"/var/www/HAL-ACL/service/data/acl/specs/transforms.json"
-		}
-	,	{
-			"folder":		"/var/www/HAL-ACL/service/data/api/"
-		,	"mappings":		"/var/www/HAL-ACL/service/data/api/specs/mappings.json"
-		,	"transforms":	"/var/www/HAL-ACL/service/data/api/specs/transforms.json"
+			"folder":		"../test/relations/"
+		,	"mappings":		"../test/relations/specs/mappings.json"
+		,	"transforms":	"../test/relations/specs/transforms.json"
 		}
 	]
 ,	"application":
 	{
 		"users":	"users"
-	,	"links":
-		{
-			"signin":	"/signin"
-		,	"signout":	"/signout"
-		,	"signup":	"/signup"
-		}
-	,	"routes":	"../service/routes/"
+	,	"signin":	"/signin"
+	,	"signout":	"/signout"
+	,	"signup":	"/signup"
 	}
 ,	"db":
 	{

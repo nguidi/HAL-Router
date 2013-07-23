@@ -1,5 +1,7 @@
 var	config
 =	require('../config.json')
+,	defaults
+=	require('../defaults.json')
 ,	_
 =	require('underscore')
 ,	URL
@@ -66,6 +68,10 @@ module.exports
 		,	transforms
 		)
 		app.set(
+			'defaults'
+		,	defaults
+		)
+		app.set(
 			'Store'
 		,	new db.Store(config,transforms,mappings)
 		)
@@ -91,7 +97,18 @@ module.exports
 					protocol:	config.server.protocol
 				,	hostname:	config.server.host
 				,	port:		config.server.port
-				,	pathname:	config.server.api_base
+				,	pathname:	config.server.api_base+'/{action}'
+				}
+			)
+		)
+		app.set(
+			'model_url'
+		,	URL.format(
+				{
+					protocol:	config.server.protocol
+				,	hostname:	config.server.host
+				,	port:		config.server.port
+				,	pathname:	config.server.api_base+'/{action}/{id}/{assoc}'
 				}
 			)
 		)
@@ -110,22 +127,22 @@ module.exports
 				[
 					{
 						name:		'show'
-					,	href:		app.get('base_url')
+					,	href:		app.get('model_url')
 					,	templated:	true
 					}
 				,	{
 						name:		'update'
-					,	href:		app.get('base_url')
+					,	href:		app.get('model_url')
 					,	templated:	true
 					}
 				,	{
 						name:		'create'
-					,	href:		app.get('base_url')
+					,	href:		app.get('model_url')
 					,	templated:	true
 					}
 				,	{
 						name:		'delete'
-					,	href:		app.get('base_url')
+					,	href:		app.get('model_url')
 					,	templated:	true
 					}
 				]
@@ -133,7 +150,7 @@ module.exports
 				[
 					{
 						name:		'show'
-					,	href:		app.get('base_url')
+					,	href:		app.get('model_url')
 					,	templated:	true
 					}
 				]
@@ -141,17 +158,17 @@ module.exports
 				[
 					{
 						name:		'list'
-					,	href:		app.get('base_url')
+					,	href:		app.get('model_url')
 					,	templated:	true
 					}
 				,	{
 						name:		'find'
-					,	href:		app.get('base_url')
+					,	href:		app.get('model_url')
 					,	templated:	true
 					}
 				,	{
 						name:		'filter'
-					,	href:		app.get('base_url')
+					,	href:		app.get('model_url')
 					,	templated:	true
 					}
 				]
@@ -159,12 +176,12 @@ module.exports
 				[
 					{
 						name:		'find'
-					,	href:		app.get('base_url')
+					,	href:		app.get('model_url')
 					,	templated:	true
 					}
 				,	{
 						name:		'filter'
-					,	href:		app.get('base_url')
+					,	href:		app.get('model_url')
 					,	templated:	true
 					}
 				]
@@ -172,16 +189,31 @@ module.exports
 				[
 					{
 						name:		'show'
-					,	href:		app.get('base_url')
+					,	href:		app.get('model_url')
 					,	templated:	true
 					}
 				,	{
 						name:		'list'
-					,	href:		app.get('base_url')
+					,	href:		app.get('model_url')
 					,	templated:	true
 					}
 				]
 			}
 		)
-
+		app.set(
+			'api_base'
+		,	config.server.api_base
+		)
+		app.set(
+			'api_signin'
+		,	config.application.signin
+		)
+		app.set(
+			'api_signout'
+		,	config.application.signout
+		)
+		app.set(
+			'api_signup'
+		,	config.application.signup
+		)
 	}

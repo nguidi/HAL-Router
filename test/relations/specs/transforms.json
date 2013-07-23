@@ -1,0 +1,204 @@
+{
+	"orders":
+	{
+		"storage":
+		{
+			"name":"orders"
+		}
+	,	"associations":
+		{
+			"customer":
+			{
+				"type":"belongs-to"
+			,	"target":"customers"
+			,	"key":"id_customer"
+			}
+		}
+	}
+,	"customers":
+	{
+		"storage":
+		{
+			"name":"customers"
+		}
+	,	"associations":
+		{
+			"order":
+			{
+				"type":"has-many"
+			,	"target":"orders"
+			,	"target_key":"id_customer"
+			}
+		}
+	}
+,	"physicians":
+	{
+		"storage":
+		{
+			"name":"physicians"
+		}
+	,	"associations":
+		{
+			"appointments":
+			{
+				"type":"has-many"
+			,	"target":"appointments"
+			,	"target_key":"id_physician"
+			}
+		,	"patients":
+			{
+				"type":"has-many:through"
+			,	"target":"patients"
+			,	"through":"appointments"
+			,	"embedded":"*"
+			}
+		}
+	}
+,	"appointments":
+	{
+		"storage":
+		{
+			"name":"appointments"
+		}
+	,	"associations":
+		{
+			"physician":
+			{
+				"type":"belongs-to"
+			,	"target":"physicians"
+			,	"key":"id_physician"
+			}
+		,	"patient":
+			{
+				"type":"belongs-to"
+			,	"target":"patients"
+			,	"key":"id_patient"
+			}
+		}
+	}
+,	"patients":
+	{
+		"storage":
+		{
+			"name":"patients"
+		}
+	,	"associations":
+		{
+			"appointments":
+			{
+				"type":"has-many"
+			,	"target":"appointments"
+			,	"target_key":"id_patient"
+			}
+		,	"physicians":
+			{
+				"type":"has-many:through"
+			,	"target":"physicians"
+			,	"through":"appointments"
+			}
+		}
+	}
+,	"supliers":
+	{
+		"storage":
+		{
+			"name":"supliers"
+		}
+	,	"associations":
+		{
+			"account":
+			{
+				"type":"has-one"
+			,	"target":"accounts"
+			,	"target_key":"id_suplier"
+			}
+		,	"account_history":
+			{
+				"type":"has-one:through"
+			,	"target":"account_histories"
+			,	"through":"accounts"
+			,	"embedded":"*"
+			}
+		}
+	}
+,	"accounts":
+	{
+		"storage":
+		{
+			"name":"accounts"
+		}
+	,	"associations":
+		{
+			"supliers":
+			{
+				"type":"belongs-to"
+			,	"target":"supliers"
+			,	"key":"id_suplier"
+			}
+		,	"account_history":
+			{
+				"type":"has-one"
+			,	"target":"account_histories"
+			,	"target_key":"id_account"
+			}
+		}
+	}
+,	"account_histories":
+	{
+		"storage":
+		{
+			"name":"account_histories"
+		}
+	,	"associations":
+		{
+			"account":
+			{
+				"type":"belongs-to"
+			,	"target":"accounts"
+			,	"key":"id_account"
+			}
+		}
+	}
+,	"assamblies":
+	{
+		"storage":
+		{
+			"name":"assamblies"
+		}
+	,	"associations":
+		{
+			"parts":
+			{
+				"type":"has-and-belongs-to-many"
+			,	"target":"parts"
+			,	"through":"assamblies_parts"
+			,	"through_target_key":"id_part"
+			,	"embedded":"*"
+			}
+		}
+	}
+,	"assamblies_parts":
+	{
+		"storage":
+		{
+			"name":"assamblies_parts"
+		}
+	}
+,	"parts":
+	{
+		"storage":
+		{
+			"name":"parts"
+		}
+	,	"associations":
+		{
+			"assamblies":
+			{
+				"type":"has-and-belongs-to-many"
+			,	"target":"assamblies"
+			,	"through":"assamblies_parts"
+			,	"through_target_key":"id_assambly"
+			}
+		}
+	}
+}
