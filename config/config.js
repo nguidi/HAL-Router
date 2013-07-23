@@ -1,17 +1,20 @@
-var	config
-=	require('../config.json')
-,	defaults
+var	defaults
 =	require('../defaults.json')
 ,	_
 =	require('underscore')
 ,	URL
 =	require('url')
-if(!config)
-	throw new Error("config.json not loaded")
 
 module.exports
 =	function(app)
 	{
+		var	config
+		=	app.get('custom_config')
+		||	require('../config.json')
+
+		if(!config)
+			throw new Error("config.json not loaded")
+
 		_.each(
 			_.keys(config.server)
 		,	function(key)

@@ -1,5 +1,22 @@
 var	_
 =	require('underscore')
+,	fs
+=	require('fs')
+,	epath
+=	require('path')
+,	fsExists
+=	fs.existsSync || epath.existsSync
+,	program
+=	require('commander')
+		.version('0.0.1')
+		.option(
+				'-c, --config <config.json>'
+			,	'config file [./config.json]'
+			,	String
+		)
+		.parse(process.argv)
+,	custom_config
+=	fsExists(program.config) && require(program.config)
 ,	nStore
 =	require('nstore')
 ,	SessionStore
@@ -23,6 +40,9 @@ var	_
 =	require('cors')
 ,	app
 =	express()
+
+if	(custom_config)
+	app.set('custom_config',custom_config)
 
 app.use(
 	cors(

@@ -35,6 +35,7 @@
 		,	"nor-hal":"latest"
 		,	"express-load":"latest"
 		,	"cors":"latest"
+		,	"commander":"latest"
 		}
 	,	"devDependencies":
 		{
