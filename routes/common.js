@@ -23,6 +23,8 @@ module.exports
 		=	require('underscore')
 		,	URL
 		=	require('url')
+		,	Store
+		=	app.get('Store')
 
 		var	getCollection
 		=	function(url_or_query_collection,model_collection)
@@ -118,27 +120,40 @@ module.exports
 					)
 				,	function(req,res)
 					{
-						if	(_.isFunction(Store[req.body.action]))
-							Store[req.body.action](
-								model.name
-							,	_.extend(
-									req.body
-								,	{
-										collection_query:	getCollection(
-																req.body.collection_query
-															||	{}
-															,	model.collection
-															)
+						if	(_.isFunction(model[req.body.action]))
+							model
+								[req.body.action](
+									_.extend(
+										req.body
+									,	{
+											collection_query:	getCollection(
+																	req.body.collection_query
+																||	{}
+																,	model.collection
+																)
+										}
+									)
+								).then(
+									function(data)
+									{
+										app
+											.build
+												.resource(
+													req
+												,	model
+												,	data
+												).then(
+													function(resource)
+													{
+														res.send(resource)
+													}
+												)
 									}
 								)
-							).then(
-								function(data)
-								{
-									app.send(req,res,data)
-								}
-							)
 						else
-							app.send(req,res,400)
+							res.send(
+								app.build.status(400)
+							)
 					}
 				)
 
@@ -152,15 +167,25 @@ module.exports
 					)
 				,	function(req,res)
 					{
-						Store
+						model
 							.update(
-								model.name
-							,	req.params[model.key]
+								req.params[model.key]
 							,	req.body
 							).then(
 								function(data)
 								{
-									app.send(req,res,data)
+									app
+										.build
+											.resource(
+												req
+											,	model
+											,	data
+											).then(
+												function(resource)
+												{
+													res.send(resource)
+												}
+											)
 								}
 							)
 					}
@@ -176,50 +201,64 @@ module.exports
 					)
 				,	function(req,res)
 					{
-						Store
+						model
 							.delete(
-								model_name
-							,	req.params[model.key]
+								req.params[model.key]
 							).then(
 								function(data)
 								{
-									app.send(req,res,data)
+									app
+										.build
+											.resource(
+												req
+											,	model
+											,	data
+											).then(
+												function(resource)
+												{
+													res.send(resource)
+												}
+											)
 								}
 							)
 					}
 				)
 
-				_.each(
-					model.assocs
-				,	function(assoc)
+				app.get(
+					app.get('base')
+				+	model.model_assoc_template.expand(
+						{
+							model_name:		model.name
+						,	model_key:		model.key
+						,	model_assoc:	'assoc'
+						}
+					)
+				,	function(req,res)
 					{
-						app.get(
-							app.get('base')
-						+	assoc.template.expand(
+						Store
+							.show(
+								model.name
+							,	req.params.id
+							).then(
+								function(data)
 								{
-									model_name:		model.name
-								,	model_key:		model.key
-								,	model_assoc:	assoc.name
+									model
+										.resolve_assoc(
+											req
+										,	req.params.assoc
+										,	data
+										).then(
+											function(resource)
+											{
+												res.send(
+													resource
+												)
+											}
+										)
 								}
 							)
-						,	function(req,res)
-							{
-								Store
-									[assoc.getAction()](
-										assoc.target
-									,	assoc.getBody(req.params)
-									).then(
-										function(data)
-										{
-											app.send(req,res,data)
-										}
-									)
-							}
-						)
 					}
 				)
 			}
 		)
-
-
 	}

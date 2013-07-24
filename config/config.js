@@ -208,6 +208,14 @@ module.exports
 		,	config.server.api_base
 		)
 		app.set(
+			'api_links'
+		,	{
+				'api:signin':	{href:	config.application.signin}
+			,	'api:signout':	{href:	config.application.signout}
+			,	'api:signup':	{href:	config.application.signup}
+			}
+		)
+		app.set(
 			'api_signin'
 		,	config.application.signin
 		)
