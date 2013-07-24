@@ -45,6 +45,11 @@
 			"required": ["type","template"]
 		,	"optional": ["attrs"]
 		}
+	,	"is-a":
+		{
+			"required": ["type","target","key"]
+		,	"optional": ["target_key"]
+		}
 	}
 ,	"embedded":
 	{
