@@ -216,6 +216,10 @@ module.exports
 			}
 		)
 		app.set(
+			'api_users'
+		,	config.application.users
+		)
+		app.set(
 			'api_signin'
 		,	config.application.signin
 		)

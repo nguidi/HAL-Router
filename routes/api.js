@@ -7,7 +7,6 @@ module.exports
 		,	URL
 		=	require('url')
 
-
 		app.post(
 			app.get('api_base')
 		+	app.get('api_signin')
@@ -26,6 +25,7 @@ module.exports
 						.then(
 							function(data)
 							{
+								console.log(data)
 								app
 									.build
 										.resource(
@@ -35,10 +35,9 @@ module.exports
 										).then(
 											function(resource)
 											{
-												req.session.user
-												=	user
-
-												res.send(resource)
+												res.send(
+													resource
+												)
 											}
 										)
 							}
