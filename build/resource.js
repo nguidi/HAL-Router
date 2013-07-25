@@ -51,11 +51,12 @@ module.exports
 
 						var	assocs
 						=	model.get_associations(req,data)
+
 						if	(_.isEmpty(assocs))
 							deferred
-									.resolve(
-										resource
-									)
+								.resolve(
+									resource
+								)
 						else
 							Q.all(
 								_.map(

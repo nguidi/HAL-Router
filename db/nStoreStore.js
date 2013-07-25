@@ -77,15 +77,16 @@ function Store(config,transforms,mappings)
 {
 	var	transforms_input
 	=	new Object()
+	,	sources_data
+	=	new	Object()
 	,	self
 	=	this
 
 	this.sources
 	=	new Object()
-	
-	_.each(
-		transforms
-	,	function(transform,name)
+
+	this.get_path
+	=	function(transform)
 		{
 			var	transform_path
 			=	_.find(
@@ -103,44 +104,108 @@ function Store(config,transforms,mappings)
 					}
 				)
 
-			var	path
-			=	epath.join(__dirname,transform_path.folder)
+			return	epath.join(__dirname,transform_path.folder)
 				+	'data/json/'
 				+	transform.storage.name
-				+	'.json'
+				+	'.json'	
+		}
 
-			if (fsExists(path))
-			{
-				self.sources[name]
-				=	nStore
-						.new(
-							name+'.db'
-						,	function()
+	this.generate_data
+	=	function()
+		{
+			_.each(
+				transforms
+			,	function(transform,name)
+				{
+					var	path
+					=	self.get_path(transform)
+					
+					if	(_.isUndefined(sources_data[name]))
+						sources_data[name]
+						=	new Object()
+					
+					if	(fsExists(path)) {
+						var	parent
+						=	_.find(
+								transform.associations
+							,	function(assoc)
+								{
+									return	_.isEqual(assoc.type,'is-a')
+								}
+							)
+						_.each(
+							JSON
+								.parse(
+									fs.readFileSync(path,'utf8')
+								)
+						,	function(object,index)
 							{
-								// DB Creada
+								_.extend(
+									sources_data[name]
+								,	_.object(
+										[object.id]
+									,	[object]
+									)
+								)
+								 if	(parent)
+								 {
+								 	if	(_.isUndefined(sources_data[parent.target]))
+								 		sources_data[parent.target]
+							 			=	new Object()
+
+							 		_.extend(
+							 			sources_data[parent.target]
+							 		,	_.object(
+											[object.id]
+										,	[
+												_.extend(
+													sources_data[parent.target][object.id]
+												||	{}
+												,	object
+												)
+											]
+										)
+							 		)
+								 }
 							}
 						)
-				_.each(
-					JSON
-						.parse(
-							fs.readFileSync(path,'utf8')
-						)
-				,	function(object,index)
-					{
-						self.sources[name]
-								.save(
-									object.id
-								,	object
-								,	function(err)
-									{
-										if (err)
-											throw err
-									}
-								)
-					}
-				)
-			} else
-				logger.warning('Data Input: no such file '+path+'/'+transform.storage.name+'.json')
+					} else
+						logger.warning('Data Input: no such file '+path+'/'+transform.storage.name+'.json')
+				}
+			)
+
+			return	sources_data
+		}
+
+	_.each(
+		this.generate_data()
+	,	function(data,name)
+		{
+			self.sources[name]
+			=	nStore
+					.new(
+						name+'.db'
+					,	function()
+						{
+							// DB Creada
+							_.each(
+								data
+							,	function(object,index)
+								{
+									self.sources[name]
+											.save(
+												index
+											,	object
+											,	function(err)
+												{
+													if (err)
+														throw err
+												}
+											)
+								}
+							)
+						}
+					)
 		}
 	)
 

@@ -76,7 +76,7 @@ module.exports
 		)
 		app.set(
 			'Store'
-		,	new db.Store(config,transforms,mappings)
+		,	new db.Store(config,transforms,mappings,app.get('initialize_db'))
 		)
 		app.set(
 			'status_codes'

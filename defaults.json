@@ -43,7 +43,7 @@
 	,	"link":
 		{
 			"required": ["type","template"]
-		,	"optional": ["attrs"]
+		,	"optional": ["attrs","embedded"]
 		}
 	,	"is-a":
 		{

@@ -14,6 +14,12 @@ var	_
 			,	'config file [./config.json]'
 			,	String
 		)
+		.option(
+				'-i, --initialize'
+			,	'Initialize DB'
+			,	Boolean
+			,	false
+		)
 		.parse(process.argv)
 ,	custom_config
 =	fsExists(program.config) && require(program.config)
