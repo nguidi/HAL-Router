@@ -73,6 +73,7 @@ var	apply_filter
 					_.without(bool,true)
 				)
 	}
+
 function Store(config,transforms,mappings)
 {
 	var	transforms_input
@@ -181,31 +182,37 @@ function Store(config,transforms,mappings)
 		this.generate_data()
 	,	function(data,name)
 		{
-			self.sources[name]
-			=	nStore
-					.new(
-						name+'.db'
-					,	function()
-						{
-							// DB Creada
-							_.each(
-								data
-							,	function(object,index)
-								{
-									self.sources[name]
-											.save(
-												index
-											,	object
-											,	function(err)
-												{
-													if (err)
-														throw err
-												}
-											)
-								}
-							)
-						}
-					)
+			fs
+				.unlink(
+					name+'.db'
+				,	function (err) {
+						self.sources[name]
+						=	nStore
+								.new(
+									name+'.db'
+								,	function()
+									{
+										// DB Creada
+										_.each(
+											data
+										,	function(object,index)
+											{
+												self.sources[name]
+														.save(
+															index
+														,	object
+														,	function(err)
+															{
+																if (err)
+																	throw err
+															}
+														)
+											}
+										)
+									}
+								)
+					}
+				)	
 		}
 	)
 

@@ -25,7 +25,6 @@ module.exports
 						.then(
 							function(data)
 							{
-								console.log(data)
 								app
 									.build
 										.resource(
