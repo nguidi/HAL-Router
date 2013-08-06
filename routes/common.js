@@ -29,13 +29,14 @@ module.exports
 		var	getCollection
 		=	function(url_or_query_collection,model_collection)
 			{
-				return	_.extend(
-							model_collection
-						,	_.pick(
-								url_or_query_collection
-							,	['type','ipp','page']
-							)
-						)
+				return	{
+							type:	url_or_query_collection.type
+								||	model_collection.type
+						,	ipp:	parseInt(url_or_query_collection.ipp)
+								||	model_collection.ipp
+						,	page:	parseInt(url_or_query_collection.page)
+								||	model_collection.page
+						}
 			}
 
 		_.each(

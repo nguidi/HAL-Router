@@ -245,14 +245,13 @@ function Store(config,transforms,mappings)
 			var	deferred
 			=	Q.defer()
 			,	initial
-			=	_.isUndefined(query.page) || _.isUndefined(query.ipp)
+			=	_.isEmpty(query.page) || _.isEmpty(query.ipp)
 				?	0
 				:	(query.page-1)*query.ipp
 			,	final
-			=	_.isUndefined(query.page) || _.isUndefined(query.ipp)
+			=	_.isEmpty(query.page) || _.isEmpty(query.ipp)
 				?	0
 				:	(query.page-1)*query.ipp+query.ipp
-
 			this.sources[name]
 					.all(
 						function(err, docs)
