@@ -104,6 +104,8 @@ function Store(config,transforms,mappings)
 								)
 					}
 				)
+			if	(_.isEmpty(transform_path))
+				return	undefined
 
 			return	epath.join(__dirname,transform_path.folder)
 				+	'data/json/'
