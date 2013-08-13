@@ -4,6 +4,8 @@ var	defaults
 =	require('underscore')
 ,	URL
 =	require('url')
+,	load
+=	require('express-load')
 
 module.exports
 =	function(app)
@@ -230,5 +232,14 @@ module.exports
 		app.set(
 			'api_signup'
 		,	config.application.signup
+		)
+		console.log(
+			config.server.api_base
+		+	'/typeahead'
+		)
+		app.set(
+			'typeahead'
+		,	config.server.api_base
+		+	'/typeahead'
 		)
 	}

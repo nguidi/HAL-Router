@@ -94,6 +94,10 @@ load('config')
 	.then('routes')
 	.into(app)
 
+if	(custom_config.application.routes)
+	load(epath.join(__dirname+custom_config.application.routes))
+		.into(app)
+
 app.use(
 	express.session(
 		{
