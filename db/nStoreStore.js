@@ -64,7 +64,7 @@ var	apply_filter
 					bool.push(parseFloat(item[filter.key]) <= parseFloat(filter.value))
 				else
 				if (filter.criteria == '%')
-					bool.push(item[filter.key].indexOf(filter.value) != -1)
+					bool.push(_.str.include(item[filter.key].toLowerCase(),filter.value.toLowerCase()))
 				else
 					bool.push(false)
 			}
@@ -104,6 +104,8 @@ function Store(config,transforms,mappings)
 								)
 					}
 				)
+			if	(_.isEmpty(transform_path))
+				return	undefined
 
 			return	epath.join(__dirname,transform_path.folder)
 				+	'data/json/'
@@ -252,6 +254,7 @@ function Store(config,transforms,mappings)
 			=	_.isEmpty(query.page) || _.isEmpty(query.ipp)
 				?	0
 				:	(query.page-1)*query.ipp+query.ipp
+				
 			this.sources[name]
 					.all(
 						function(err, docs)
