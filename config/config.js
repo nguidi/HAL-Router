@@ -200,6 +200,11 @@ module.exports
 					,	href:		app.get('model_url')
 					,	templated:	true
 					}
+				,	{
+						name:		'filter'
+					,	href:		app.get('model_url')
+					,	templated:	true
+					}
 				]
 			}
 		)
