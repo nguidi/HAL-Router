@@ -8,7 +8,7 @@ var	HAL
 module.exports
 =	function(app)
 	{
-		return	function(req,model,collection,collection_query)
+		return	function(req,model,collection,collection_query,embedded_type)
 				{					
 					var	deferred
 					=	Q.defer()
@@ -24,7 +24,7 @@ module.exports
 								collection.data
 							,	function(data)
 								{
-									return	app.build.resource(req,model,data)
+									return	app.build.resource(req,model,data,embedded_type)
 								}
 							)
 						).then(

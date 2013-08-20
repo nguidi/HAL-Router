@@ -8,7 +8,7 @@ var	HAL
 module.exports
 =	function(app)
 	{
-		return	function(req,model,data)
+		return	function(req,model,data,collection,embedded_type)
 				{
 					var	deferred
 					=	Q.defer()
@@ -48,47 +48,53 @@ module.exports
 									)
 							}
 						)
-
-						var	assocs
-						=	model.get_associations(req,data)
-
-						if	(_.isEmpty(assocs))
+						console.log("ES PARTIAL",model.name,embedded_type)
+						if	(_.isEqual(embedded_type,"partial"))	{
 							deferred
 								.resolve(
 									resource
 								)
-						else
-							Q.all(
-								_.map(
-									assocs
-								,	function(assoc)
-									{
-										return	model.resolve_assoc(req,assoc,data)
-									}
-								)
-							).then(
-								function(embeddeds)
-								{
-									if	(!_.isEmpty(embeddeds))
-										_.each(
-											embeddeds
-										,	function(embedded,index)
-											{
-												resource
-													.embed(
-														embedded.name
-													,	embedded
-													)
-											}
-										)
-									deferred
-										.resolve(
-											resource
-										)
-								}
-							)
-					}
+						}	else	{
+							var	assocs
+							=	model.get_associations(req,data)
 
+							if	(_.isEmpty(assocs))
+								deferred
+									.resolve(
+										resource
+									)
+							else
+								Q.all(
+									_.map(
+										assocs
+									,	function(assoc)
+										{
+											return	model.resolve_assoc(req,assoc,data)
+										}
+									)
+								).then(
+									function(embeddeds)
+									{
+										if	(!_.isEmpty(embeddeds))
+											_.each(
+												embeddeds
+											,	function(embedded,index)
+												{
+													resource
+														.embed(
+															embedded.name
+														,	embedded
+														)
+												}
+											)
+										deferred
+											.resolve(
+												resource
+											)
+									}
+							)
+						}
+					}
 
 					return	deferred.promise	
 				}
