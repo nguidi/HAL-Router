@@ -13,7 +13,7 @@
 		"has-many":
 		{
 			"required": ["type","target","target_key"]
-		,	"optional": ["key","embedded"] 
+		,	"optional": ["key","embedded","collection"] 
 		}
 	,	"has-one":
 		{
@@ -23,7 +23,7 @@
 	,	"has-many:through":
 		{
 			"required": ["type","target","through"]
-		,	"optional": ["key","target_key","through_key","through_target_key","embedded"] 
+		,	"optional": ["key","target_key","through_key","through_target_key","embedded","collection"] 
 		}
 	,	"has-one:through":
 		{
@@ -38,7 +38,7 @@
 	,	"has-and-belongs-to-many":
 		{
 			"required": ["type","target","through_target_key","through"]
-		,	"optional": ["through_key","key","target_key", "embedded"] 
+		,	"optional": ["through_key","key","target_key", "embedded", "collection"] 
 		}
 	,	"link":
 		{
