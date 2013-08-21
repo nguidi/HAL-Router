@@ -338,6 +338,7 @@ function Store(config,transforms,mappings)
 											return	apply_filter(body.query,item)
 										}
 									)
+								||	{}
 								)
 						}
 					)
@@ -380,6 +381,7 @@ function Store(config,transforms,mappings)
 															return	apply_filter({key: body.through.through_target_key, value: through_item[body.through.target_key]},item)
 														}
 													)
+												||	{}
 												)
 										}
 									)

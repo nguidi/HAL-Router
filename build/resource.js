@@ -48,7 +48,7 @@ module.exports
 									)
 							}
 						)
-						console.log("ES PARTIAL",model.name,embedded_type)
+
 						if	(_.isEqual(embedded_type,"partial"))	{
 							deferred
 								.resolve(

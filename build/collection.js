@@ -24,7 +24,7 @@ module.exports
 								collection.data
 							,	function(data)
 								{
-									return	app.build.resource(req,model,data,embedded_type)
+									return	app.build.resource(req,model,data,collection_query,embedded_type)
 								}
 							)
 						).then(
