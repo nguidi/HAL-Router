@@ -139,14 +139,22 @@ module.exports
 									{
 										app
 											.build
-												.resource(
+												[_.isEqual(req.body.action,'findAllBy')
+												?	'collection'
+												:	'resource'
+												](
 													req
 												,	model
 												,	data
+												,	getCollection(
+														req.body.collection_query
+													||	{}
+													,	model.collection
+													)
 												).then(
-													function(resource)
+													function(collection)
 													{
-														res.send(resource)
+														res.send(collection)
 													}
 												)
 									}
