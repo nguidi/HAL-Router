@@ -58,7 +58,7 @@ app.use(
 		}
 	)
 )
-console.log("Mati")
+
 app.use(
 	function(req,res,next)
 	{

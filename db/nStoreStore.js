@@ -218,6 +218,57 @@ function Store(config,transforms,mappings)
 		}
 	)
 
+	this.count
+	=	function(name)
+		{
+			console.log("Store.count")
+			var	deferred
+			=	Q.defer()
+				
+			this.sources[name]
+					.all(
+						function(err, docs)
+						{
+							deferred
+								.resolve(
+									_.values(docs).length
+								)
+						}
+					)
+
+			return	deferred.promise
+		}
+
+	this.count_through
+	=	function(name,body)
+		{
+			console.log("Store.count_through")
+			var	deferred
+			=	Q.defer()
+
+			this.sources[name]
+					.all(
+						function(err, docs)
+						{
+							var filtered
+							=	_.filter(
+									_.values(docs)
+								,	function(item)
+									{
+										return	apply_filter(body.query,item)
+									}
+								)
+							
+							deferred
+								.resolve(
+									filtered.length
+								)
+						}
+					)
+
+			return	deferred.promise
+		}
+
 	this.show
 	=	function(name,id)
 		{
@@ -295,21 +346,23 @@ function Store(config,transforms,mappings)
 					.all(
 						function(err, docs)
 						{
+							var filtered
+							=	_.filter(
+									_.values(docs)
+								,	function(item)
+									{
+										return	apply_filter(body.query,item)
+									}
+								)
 							deferred
 								.resolve(
 									{
 										data:	_.between(
-													_.filter(
-														_.values(docs)
-													,	function(item)
-														{
-															return	apply_filter(body.query,item)
-														}
-													)
+													filtered
 												,	initial
 												,	final
 												)
-									,	count:	_.values(docs).length
+									,	count:	filtered.length
 									}
 								)
 						}

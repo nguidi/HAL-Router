@@ -44,6 +44,31 @@ module.exports
 		,	function(model)
 			{
 				app.get(
+					app.get('api_count')
+				+	model.model_template.expand(
+						{
+							model_name:		model.name
+						}
+					)
+				,	function(req,res)
+					{
+						model
+							.count()
+							.then(
+								function(count)
+								{
+									res.send(
+											{
+												count: count
+											}
+										)
+								}
+							)
+
+					}
+				)
+
+				app.get(
 					app.get('base')
 				+	model.model_template.expand(
 						{
@@ -232,6 +257,42 @@ module.exports
 							)
 					}
 				)
+
+				app.get(
+					app.get('api_count')
+				+	model.model_assoc_template.expand(
+						{
+							model_name:		model.name
+						,	model_key:		model.key
+						,	model_assoc:	'assoc'
+						}
+					)
+				,	function(req,res)
+					{
+						Store
+							.show(
+								model.name
+							,	req.params.id
+							).then(
+								function(data)
+								{
+									model
+										.count(req.params.assoc,data)
+										.then(
+											function(count)
+											{
+												res.send(
+														{
+															count: count
+														}
+													)
+											}
+										)
+								}
+							)
+					}
+				)
+
 
 				app.get(
 					app.get('base')

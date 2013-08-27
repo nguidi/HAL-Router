@@ -118,6 +118,17 @@ module.exports
 			)
 		)
 		app.set(
+			'count_url'
+		,	URL.format(
+				{
+					protocol:	config.server.protocol
+				,	hostname:	config.server.host
+				,	port:		config.server.port
+				,	pathname:	config.server.api_base+'/count/{action}/{id}/{assoc}'
+				}
+			)
+		)
+		app.set(
 			'curies'
 		,	{
 				api:
@@ -176,6 +187,11 @@ module.exports
 					,	href:		app.get('model_url')
 					,	templated:	true
 					}
+				,	{
+						name:		'count'
+					,	href:		app.get('count_url')
+					,	templated:	true
+					}
 				]
 			,	'has-and-belongs-to-many':
 				[
@@ -187,6 +203,11 @@ module.exports
 				,	{
 						name:		'filter'
 					,	href:		app.get('model_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'count'
+					,	href:		app.get('count_url')
 					,	templated:	true
 					}
 				]
@@ -205,6 +226,11 @@ module.exports
 				,	{
 						name:		'filter'
 					,	href:		app.get('model_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'count'
+					,	href:		app.get('count_url')
 					,	templated:	true
 					}
 				]
@@ -242,5 +268,10 @@ module.exports
 			'typeahead'
 		,	config.server.api_base
 		+	'/typeahead'
+		)
+		app.set(
+			'api_count'
+		,	config.server.api_base
+		+	'/count'
 		)
 	}
