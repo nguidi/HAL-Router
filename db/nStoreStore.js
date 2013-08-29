@@ -144,32 +144,39 @@ function Store(config,transforms,mappings)
 						,	function(object,index)
 							{
 								_.extend(
-									sources_data[name]
-								,	_.object(
-										[object.id]
-									,	[object]
-									)
+									object
+								,	{
+										_rel:	name
+									}
 								)
-								 if	(parent)
-								 {
-								 	if	(_.isUndefined(sources_data[parent.target]))
-								 		sources_data[parent.target]
-							 			=	new Object()
-
-							 		_.extend(
-							 			sources_data[parent.target]
-							 		,	_.object(
+								if	(!sources_data[name][object.id])
+									_.extend(
+										sources_data[name]
+									,	_.object(
 											[object.id]
-										,	[
-												_.extend(
-													sources_data[parent.target][object.id]
-												||	{}
-												,	object
-												)
-											]
+										,	[object]
 										)
-							 		)
-								 }
+									)
+
+								if	(parent)	{
+									if	(_.isUndefined(sources_data[parent.target]))
+										sources_data[parent.target]
+										=	new Object()
+
+									_.extend(
+										sources_data[parent.target]
+									,	_.object(
+										[object.id]
+									,	[
+											_.extend(
+												sources_data[parent.target][object.id]
+											||	{}
+											,	object
+											)
+										]
+									)
+									)
+								}
 							}
 						)
 					} else
