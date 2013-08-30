@@ -36,6 +36,7 @@ module.exports
 												{
 													data:	resource_collection
 												,	count:	collection.count
+												,	_rel: 	model.name
 												}
 											,	model.url()
 											,	collection_query
