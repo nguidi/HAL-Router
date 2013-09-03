@@ -38,7 +38,7 @@ module.exports
 												,	count:	collection.count
 												,	_rel: 	model.name
 												}
-											,	model.url()
+											,	req.url
 											,	collection_query
 											)
 									)
