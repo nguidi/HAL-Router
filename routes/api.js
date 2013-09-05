@@ -17,7 +17,7 @@ module.exports
 
 				if	(_.isEmpty(req.body))
 					res.send(
-						app.build.status(400)
+						app.build.status('api',400)
 					)
 				else
 					user_model
@@ -53,7 +53,7 @@ module.exports
 				=	null
 
 				res.send(
-					app.build.status(200)
+					app.build.status('api',200)
 				)
 			}
 		)
@@ -68,7 +68,7 @@ module.exports
 
 				if	(_.isEmpty(req.body))
 					res.send(
-						app.build.status(400)
+						app.build.status('api',400)
 					)
 				else
 					user_model
@@ -86,13 +86,13 @@ module.exports
 											function(resource)
 											{
 												res.send(
-													app.build.status(200)
+													app.build.status('api',200)
 												)
 											}
 										,	function()
 											{
 												res.send(
-													app.build.status(400)
+													app.build.status('api',400)
 												)
 											}
 										)

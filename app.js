@@ -91,12 +91,13 @@ app.use(
 load('config')
 	.then('models')
 	.then('build')
+	.then(epath.join(__dirname+custom_config.application.routes))
 	.then('routes')
 	.into(app)
 
-if	(custom_config.application.routes)
-	load(epath.join(__dirname+custom_config.application.routes))
-		.into(app)
+// if	(custom_config.application.routes)
+// 	load(epath.join(__dirname+custom_config.application.routes))
+// 		.into(app)
 
 app.use(
 	express.session(

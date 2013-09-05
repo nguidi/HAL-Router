@@ -16,7 +16,7 @@ module.exports
 					if	(_.isEmpty(collection.data))
 						deferred
 							.resolve(
-								app.build.status(404)
+								app.build.status(model.name,404)
 							)
 					else
 						Q.all(

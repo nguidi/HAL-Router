@@ -6,6 +6,8 @@ var	defaults
 =	require('url')
 ,	load
 =	require('express-load')
+,	Q
+=	require('q')
 
 module.exports
 =	function(app)
@@ -64,6 +66,14 @@ module.exports
 			}
 		)
 
+		app.set(
+			'Q'
+		,	Q
+		)
+		app.set(
+			'_'
+		,	_
+		)
 		app.set(
 			'mappings'
 		,	mappings
@@ -192,6 +202,21 @@ module.exports
 					,	href:		app.get('count_url')
 					,	templated:	true
 					}
+				,	{
+						name:		'update'
+					,	href:		app.get('model_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'create'
+					,	href:		app.get('model_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'delete'
+					,	href:		app.get('model_url')
+					,	templated:	true
+					}
 				]
 			,	'has-and-belongs-to-many':
 				[
@@ -210,6 +235,21 @@ module.exports
 					,	href:		app.get('count_url')
 					,	templated:	true
 					}
+				,	{
+						name:		'update'
+					,	href:		app.get('model_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'create'
+					,	href:		app.get('model_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'delete'
+					,	href:		app.get('model_url')
+					,	templated:	true
+					}
 				]
 			,	'link':
 				[
@@ -224,7 +264,27 @@ module.exports
 					,	templated:	true
 					}
 				,	{
+						name:		'find'
+					,	href:		app.get('model_url')
+					,	templated:	true
+					}
+				,	{
 						name:		'filter'
+					,	href:		app.get('model_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'update'
+					,	href:		app.get('model_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'create'
+					,	href:		app.get('model_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'delete'
 					,	href:		app.get('model_url')
 					,	templated:	true
 					}

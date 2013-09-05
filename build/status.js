@@ -8,10 +8,15 @@ var	HAL
 module.exports
 =	function(app)
 	{
-		return	function(code)
+		return	function(name,code)
 				{
 					return	new	HAL.Resource(
-									app.get('status_codes')[code]
+									_.extend(
+										app.get('status_codes')[code]
+									,	{
+											_rel:	name
+										}
+									)
 								,	app.get('base_url')
 								+	uritemplate(
 										'/status_codes/{code}'

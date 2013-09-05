@@ -86,6 +86,9 @@ function Store(config,transforms,mappings)
 	this.sources
 	=	new Object()
 
+	this.key_paring
+	=	new Object()
+
 	this.get_path
 	=	function(transform)
 		{
@@ -137,10 +140,16 @@ function Store(config,transforms,mappings)
 								}
 							)
 						_.each(
-							JSON
-								.parse(
-									fs.readFileSync(path,'utf8')
-								)
+							_.sortBy(
+								JSON
+									.parse(
+										fs.readFileSync(path,'utf8')
+									)
+							,	function(ob)
+								{
+									return ob.id
+								}
+							)
 						,	function(object,index)
 							{
 								_.extend(
@@ -195,6 +204,8 @@ function Store(config,transforms,mappings)
 				.unlink(
 					name+'.db'
 				,	function (err) {
+						self.key_paring[name]
+						=	{ last: 0}
 						self.sources[name]
 						=	nStore
 								.new(
@@ -208,10 +219,14 @@ function Store(config,transforms,mappings)
 											{
 												self.sources[name]
 														.save(
-															index
+															null
 														,	object
-														,	function(err)
+														,	function(err,key)
 															{
+																self.key_paring[name][data.id || index]
+																=	key
+																self.key_paring[name].last
+																=	parseInt(data.id || index)
 																if (err)
 																	throw err
 															}
@@ -282,15 +297,18 @@ function Store(config,transforms,mappings)
 			console.log("Store.show")
 			var	deferred
 			=	Q.defer()
+			,	index
+			=	this.key_paring[name][id]
 
 			this.sources[name]
 					.get(
-						id
+						index
 					,	function(err, doc, key)
 						{
 							deferred
 								.resolve(
 									doc
+								||	{}
 								)
 						}
 					)
@@ -528,10 +546,12 @@ function Store(config,transforms,mappings)
 			=	Q.defer()
 			,	self
 			=	this
+			,	index
+			=	this.key_paring[name][id]
 
 			self.sources[name]
 					.get(
-						id
+						index
 					,	function(err,doc)
 						{
 							_.extend(
@@ -540,7 +560,7 @@ function Store(config,transforms,mappings)
 							)
 							self.sources[name]
 									.save(
-										id
+										index
 									,	doc
 									,	function(err, key)
 										{
@@ -565,7 +585,7 @@ function Store(config,transforms,mappings)
 
 			this.sources[name]
 					.remove(
-						id
+						this.key_paring[name][id]
 					,	function(err, key)
 						{
 							if (err)
@@ -592,10 +612,13 @@ function Store(config,transforms,mappings)
 	=	function(name,data)
 		{
 			console.log("Store.create")
+			this.key_paring[name].last++
 			var	deferred
 			=	Q.defer()
 			,	self
 			=	this
+			,	index
+			=	this.key_paring[name].last
 
 			self.sources[name]
 					.all(
@@ -604,15 +627,18 @@ function Store(config,transforms,mappings)
 							_.extend(
 								data
 							,	{
-									id:	_.values(docs).length+1
+									id:		index
+								,	_rel:	name
 								}
 							)
 							self.sources[name]
 									.save(
-										docs.length+1
+										index
 									,	data
 									,	function(err, key)
 										{
+											self.key_paring[name][index]
+											=	key
 											deferred
 												.resolve(
 													data

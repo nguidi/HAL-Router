@@ -146,7 +146,7 @@ module.exports
 					)
 				,	function(req,res)
 					{
-						if	(_.isFunction(model[req.body.action]))
+						if	(_.isFunction(model[req.body.action]) && _.contains(['findOneBy','findAllBy'],req.body.action))
 							model
 								[req.body.action](
 									_.extend(
@@ -186,7 +186,39 @@ module.exports
 								)
 						else
 							res.send(
-								app.build.status(400)
+								app.build.status(model.name,400)
+							)
+					}
+				)
+		
+				app.put(
+					app.get('base')
+				+	model.model_template.expand(
+						{
+							model_name:		model.name
+						}
+					)
+				,	function(req,res)
+					{
+						model
+							.create(
+								req.body
+							).then(
+								function(data)
+								{
+									app
+										.build
+											.resource(
+												req
+											,	model
+											,	data
+											).then(
+												function(resource)
+												{
+													res.send(resource)
+												}
+											)
+								}
 							)
 					}
 				)
