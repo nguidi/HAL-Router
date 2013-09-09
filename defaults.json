@@ -6,14 +6,14 @@
 ,	"transforms":
 	{
 		"required": ["storage"]
-	,	"optional": ["associations","collection","root"] 
+	,	"optional": ["associations","collection","root","sortBy"] 
 	}
 ,	"associations":
 	{
 		"has-many":
 		{
 			"required": ["type","target","target_key"]
-		,	"optional": ["key","embedded","collection"] 
+		,	"optional": ["key","embedded","collection","sortBy"] 
 		}
 	,	"has-one":
 		{
@@ -23,7 +23,7 @@
 	,	"has-many:through":
 		{
 			"required": ["type","target","through"]
-		,	"optional": ["key","target_key","through_key","through_target_key","embedded","collection"] 
+		,	"optional": ["key","target_key","through_key","through_target_key","embedded","collection","sortBy"] 
 		}
 	,	"has-one:through":
 		{
@@ -38,12 +38,12 @@
 	,	"has-and-belongs-to-many":
 		{
 			"required": ["type","target","through_target_key","through"]
-		,	"optional": ["through_key","key","target_key", "embedded", "collection"] 
+		,	"optional": ["through_key","key","target_key", "embedded", "collection","sortBy"] 
 		}
 	,	"link":
 		{
 			"required": ["type","template"]
-		,	"optional": ["attrs","embedded","curies","collection"]
+		,	"optional": ["attrs","embedded","curies","collection","sortBy"]
 		}
 	,	"is-a":
 		{

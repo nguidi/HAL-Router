@@ -158,6 +158,10 @@ module.exports
 																,	model.collection
 																)
 										}
+									,	_.extend(
+											model.sortBy
+										,	(req.body.sortBy) || {}
+										)
 									)
 								).then(
 									function(data)

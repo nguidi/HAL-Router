@@ -372,11 +372,17 @@ function Store(config,transforms,mappings)
 						function(err, docs)
 						{
 							var filtered
-							=	_.filter(
-									_.values(docs)
+							=	_.sortBy(
+									_.filter(
+										_.values(docs)
+									,	function(item)
+										{
+											return	apply_filter(body.query,item)
+										}
+									)
 								,	function(item)
 									{
-										return	apply_filter(body.query,item)
+										return	item[body.sortBy]
 									}
 								)
 
