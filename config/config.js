@@ -294,6 +294,52 @@ module.exports
 					,	templated:	true
 					}
 				]
+			,	'resource':
+				[
+					{
+						name:		'update'
+					,	href:		app.get('model_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'delete'
+					,	href:		app.get('model_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'show'
+					,	href:		app.get('model_url')
+					,	templated:	true
+					}
+				]
+			,	'collection':
+				[
+					{
+						name:		'update'
+					,	href:		app.get('model_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'create'
+					,	href:		app.get('model_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'delete'
+					,	href:		app.get('model_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'count'
+					,	href:		app.get('count_url')
+					,	templated:	true
+					}
+				,	{
+						name:		'list'
+					,	href:		app.get('model_url')
+					,	templated:	true
+					}
+				]
 			}
 		)
 		app.set(

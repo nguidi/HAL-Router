@@ -361,6 +361,42 @@ module.exports
 							)
 					}
 				)
+
+				app.put(
+					app.get('base')
+				+	model.model_assoc_template.expand(
+						{
+							model_name:		model.name
+						,	model_key:		model.key
+						,	model_assoc:	'assoc'
+						}
+					)
+				,	function(req,res)
+					{
+						Store
+							.show(
+								model.name
+							,	req.params.id
+							).then(
+								function(data)
+								{
+									model
+										.create_assoc(
+											req
+										,	req.params.assoc
+										,	data
+										).then(
+											function(resource)
+											{
+												res.send(
+													resource
+												)
+											}
+										)
+								}
+							)
+					}
+				)
 			}
 		)
 	}

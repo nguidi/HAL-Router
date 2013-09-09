@@ -24,12 +24,23 @@ module.exports
 									data
 								,	model.url(data)
 								)
+						,	model_curies
+						=	model.get_curies()
+						
+						_.each(
+							app.get('curies').resource
+						,	function(curie)
+							{
+								model_curies[curie.name]
+								=	curie
+							}
+						)
 
 						resource
 							.link(
 								'curies'
 							,	_.map(
-									model.get_curies()
+									model_curies
 								,	function(curie)
 									{
 										return	curie
@@ -39,6 +50,18 @@ module.exports
 
 						_.each(
 							model.get_links(data)
+						,	function(link_data,link)
+							{
+								resource
+									.link(
+										link
+									,	link_data
+									)
+							}
+						)
+
+						_.each(
+							model.get_resource_links(data)
 						,	function(link_data,link)
 							{
 								resource

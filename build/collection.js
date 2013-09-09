@@ -32,9 +32,8 @@ module.exports
 						).then(
 							function(resource_collection)
 							{
-								deferred
-									.resolve(
-										new	HAL.Collection(
+								var	resource
+								=	new	HAL.Collection(
 												{
 													data:	resource_collection
 												,	count:	collection.count
@@ -43,6 +42,28 @@ module.exports
 											,	url
 											,	collection_query
 											)
+
+								resource
+									.link(
+										'curies'
+									,	app.get('curies').collection
+									)
+
+								_.each(
+									model.get_collection_links(url)
+								,	function(link_data,link)
+									{
+										resource
+											.link(
+												link
+											,	link_data
+											)
+									}
+								)
+
+								deferred
+									.resolve(
+										resource
 									)
 							}
 						)

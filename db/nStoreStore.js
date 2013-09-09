@@ -379,6 +379,7 @@ function Store(config,transforms,mappings)
 										return	apply_filter(body.query,item)
 									}
 								)
+
 							deferred
 								.resolve(
 									{
@@ -631,6 +632,7 @@ function Store(config,transforms,mappings)
 								,	_rel:	name
 								}
 							)
+
 							self.sources[name]
 									.save(
 										index
