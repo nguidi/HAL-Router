@@ -12,6 +12,8 @@ module.exports
 				{					
 					var	deferred
 					=	Q.defer()
+					,	url
+					=	req.url
 
 					if	(_.isEmpty(collection.data))
 						deferred
@@ -38,7 +40,7 @@ module.exports
 												,	count:	collection.count
 												,	_rel: 	model.name
 												}
-											,	req.url
+											,	url
 											,	collection_query
 											)
 									)

@@ -63,7 +63,7 @@ var	apply_filter
 				if (filter.criteria == '<=')
 					bool.push(parseFloat(item[filter.key]) <= parseFloat(filter.value))
 				else
-				if (filter.criteria == '%')
+				if (filter.criteria == '%' && _.isString(item[filter.key]))
 					bool.push(_.str.include(item[filter.key].toLowerCase(),filter.value.toLowerCase()))
 				else
 					bool.push(false)
